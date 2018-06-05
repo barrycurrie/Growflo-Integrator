@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Growflo.Integration.Quantil", "Growflow.Integration.Quantil\Growflo.Integration.Quantil.csproj", "{B8F04E9D-940F-475E-9397-6F9E9D1AE861}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Growflo.Integration.Core", "Growflow.Integration.Core\Growflo.Integration.Core.csproj", "{B6138273-9DB9-47F9-B5BA-0041AACF46E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{08E1F187-FFEB-4118-93A9-9513D14BD86B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8F04E9D-940F-475E-9397-6F9E9D1AE861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8F04E9D-940F-475E-9397-6F9E9D1AE861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8F04E9D-940F-475E-9397-6F9E9D1AE861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8F04E9D-940F-475E-9397-6F9E9D1AE861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6138273-9DB9-47F9-B5BA-0041AACF46E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6138273-9DB9-47F9-B5BA-0041AACF46E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6138273-9DB9-47F9-B5BA-0041AACF46E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6138273-9DB9-47F9-B5BA-0041AACF46E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A3864A8F-B91F-4656-B38E-60B2B14279CF}
+	EndGlobalSection
+EndGlobal
