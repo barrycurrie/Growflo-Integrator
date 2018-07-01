@@ -54,6 +54,6 @@ namespace Growflo.Integration.Core.Sage
         public abstract DataSet GetStockData(string[] columns, bool includeStockCategories);
         public abstract IList<SageVatRate> GetTaxCodes();
         public abstract DataSet GetTaxCodesData();
-
+        public abstract void PostSalesOrder(SageSalesOrderPost sageSalesOrder);
     }
 }

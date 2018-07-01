@@ -7,6 +7,9 @@ using System.Configuration;
 using System.IO;
 using System.Data;
 using Growflo.Integration.Core.Sage;
+using Growflo.Integration.Core.Sage.Entities;
+using Growflo.Integration.Woodlark.Database;
+using Growflo.Integration.Core.Extensions;
 
 namespace Growflo.Integration.Woodlark
 {
@@ -24,7 +27,7 @@ namespace Growflo.Integration.Woodlark
             if (sageController == null)
                 throw new ArgumentNullException(nameof(sageController));
 
-            _dbController = new DBController();
+            //_dbController = new DBController();
 
             _baseFolder = ConfigurationManager.AppSettings["BaseFolder"];
             _downloadedFolder = Path.Combine(_baseFolder, "Downloaded");
@@ -56,7 +59,10 @@ namespace Growflo.Integration.Woodlark
                     System.Data.DataSet dataSet = new System.Data.DataSet();
                     dataSet.ReadXml(file);
 
-                    _sageController.CreateSalesOrder(dataSet);
+                    DataRow order = dataSet.Tables["Order"].AsEnumerable().FirstOrDefault();
+                    DataRow[] orderItems = dataSet.Tables["Order_Item"].AsEnumerable().ToArray();
+
+                    SageSalesOrderPost sageSalesOrderPost = CreateSageSalesOrderPost(order, orderItems);
 
                 }
                 catch(Exception ex)
@@ -82,6 +88,29 @@ namespace Growflo.Integration.Woodlark
         private void SaveSalesOrderInDatabase(DataSet salesOrder)
         {
 
+        }
+
+        private SageSalesOrderPost CreateSageSalesOrderPost(DataRow salesOrderDataRow, DataRow[] salesOrderLinesDataRows)
+        {
+            SageSalesOrderPost sageSalesOrderPost = new SageSalesOrderPost();
+            sageSalesOrderPost.CustomerAccountNumber = salesOrderDataRow.GetString("ACCOUNT_NUMBER");
+            //sageSalesOrderPost.Analysis1 = salesOrderDataRow.GetString("ORDER_ID");
+            //sageSalesOrderPost.Analysis2 = salesOrderDataRow.GetString("ORDER_REFERENCE");
+            sageSalesOrderPost.OrderDate = salesOrderDataRow.GetDateTime("ORDER_DATE");
+            sageSalesOrderPost.DeliveryAddress1 = salesOrderDataRow.GetString("DELIVERY_ADDRESS1");
+            sageSalesOrderPost.DeliveryAddress1 = salesOrderDataRow.GetString("DELIVERY_ADDRESS2");
+            sageSalesOrderPost.DeliveryAddress1 = salesOrderDataRow.GetString("DELIVERY_ADDRESS3");
+            sageSalesOrderPost.DeliveryAddress1 = salesOrderDataRow.GetString("DELIVERY_ADDRESS4");
+            sageSalesOrderPost.DeliveryAddress1 = salesOrderDataRow.GetString("DELIVERY_POSTCODE");
+
+            foreach (DataRow item in salesOrderLinesDataRows)
+            {
+                SageSalesOrderPost.Item postItem = new SageSalesOrderPost.Item();
+
+            }
+
+
+            return sageSalesOrderPost;
         }
     }
 }

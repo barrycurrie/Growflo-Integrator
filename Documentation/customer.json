@@ -1,0 +1,63 @@
+{
+    "data": {
+        "id": 1312,
+        "name": "Output Simon",
+        "identifier": "OUTSIM",
+        "email_address": "simon@outputdigital.com",
+        "sales_person_id": null,
+        "group_id": null,
+        "buying_group_id": null,
+        "label_group_id": 1,
+        "pick_group_id": 5,
+        "profile_id": null,
+        "currency_id": 19,
+        "vat_rate_id": null,
+        "vat_number": null,
+        "purchase_order_required": false,
+        "deliveryAddresses": {
+            "data": [
+                {
+                    "id": 2621,
+                    "customer_id": 1312,
+                    "identifier": "Address",
+                    "key": null,
+                    "type": 2,
+                    "type_name": "delivery",
+                    "hash": "2322db9e10c2d00a1f58ca358bf2d9c376d353a5",
+                    "line_1": "Output Digital, The Ideas Factory",
+                    "line_2": "Curlew Pavilion Portside Business Park 189 Airport Road West",
+                    "town": "Belfast",
+                    "county": "Antrim",
+                    "country_id": 1,
+                    "postcode": "BT8 3ED",
+                    "ean_code": null,
+                    "delivery_location_id": 0,
+                    "delivery_location": null,
+                    "notes": null,
+                    "is_default": true,
+                    "formatted": "Simon White, Output Digital, The Ideas Factory, Curlew Pavilion Portside Business Park 189 Airport Road West, Belfast, Antrim, BT8 3ED, United Kingdom",
+                    "formatted_html": "Simon White<br />Output Digital<br />The Ideas Factory<br />Curlew Pavilion Portside Business Park 189 Airport Road West<br />Belfast<br />Antrim<br />BT8 3ED<br />United Kingdom",
+                    "country": {
+                        "data": {
+                            "id": 1,
+                            "name": "United Kingdom",
+                            "code": "GB"
+                        }
+                    },
+                    "location": {
+                        "data": []
+                    }
+                }
+            ]
+        },
+        "currency": {
+            "data": {
+                "id": 19,
+                "name": "Pounds",
+                "code": "GBP",
+                "symbol": "£",
+                "formatted": "Pounds (GBP)"
+            }
+        }
+    }
+}

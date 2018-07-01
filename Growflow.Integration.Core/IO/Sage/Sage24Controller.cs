@@ -1000,7 +1000,7 @@ namespace Growflo.Integration.Core.Sage
             return results;
         }
 
-        public void PostSalesOrder(SageSalesOrderPost sageSalesOrder)
+        public override void PostSalesOrder(SageSalesOrderPost p)
         {
             VerifyConnection();
             SalesRecord oSalesRecord;
@@ -1008,78 +1008,100 @@ namespace Growflo.Integration.Core.Sage
             SopPost oSopPost;
             SopItem oSopItem;
 
-            //Try a connection, will throw an exception if it fails
             try
-            {
-
+            { 
                 //Instantiate objects
                 oSalesRecord = (SageDataObject240.SalesRecord)_workSpace.CreateObject("SalesRecord");
                 oStockRecord = (SageDataObject240.StockRecord)_workSpace.CreateObject("StockRecord");
                 oSopPost = (SageDataObject240.SopPost)_workSpace.CreateObject("SopPost");
 
                 //Read the first customer
-                oSalesRecord.MoveFirst();
+                Write(oSalesRecord, "ACCOUNT_REF", p.CustomerAccountNumber);
+
+                if (!oSalesRecord.Find(false))
+                    throw new Exception($"Invalid A/C:{p.CustomerAccountNumber}");
 
                 //Populate the order Header Fields
-                Write(oSopPost.Header, "ACCOUNT_REF", (String)sageSalesOrder.CustomerAccountNumber);
-                Write(oSopPost.Header, "NAME", (String)sageSalesOrder.CustomerName);
+                Write(oSopPost.Header, "ACCOUNT_REF", (String)p.CustomerAccountNumber);
+                Write(oSopPost.Header, "NAME", (String)p.CustomerName);
                 Write(oSopPost.Header, "ADDRESS_1", (String)Read(oSalesRecord, "ADDRESS_1"));
                 Write(oSopPost.Header, "ADDRESS_2", (String)Read(oSalesRecord, "ADDRESS_2"));
                 Write(oSopPost.Header, "ADDRESS_3", (String)Read(oSalesRecord, "ADDRESS_3"));
                 Write(oSopPost.Header, "ADDRESS_4", (String)Read(oSalesRecord, "ADDRESS_4"));
                 Write(oSopPost.Header, "ADDRESS_5", (String)Read(oSalesRecord, "ADDRESS_5"));
-                Write(oSopPost.Header, "DEL_ADDRESS_1", (String)Read(oSalesRecord, "DEL_ADDRESS_1"));
-                Write(oSopPost.Header, "DEL_ADDRESS_2", (String)Read(oSalesRecord, "DEL_ADDRESS_2"));
-                Write(oSopPost.Header, "DEL_ADDRESS_3", (String)Read(oSalesRecord, "DEL_ADDRESS_3"));
-                Write(oSopPost.Header, "DEL_ADDRESS_4", (String)Read(oSalesRecord, "DEL_ADDRESS_4"));
-                Write(oSopPost.Header, "DEL_ADDRESS_5", (String)Read(oSalesRecord, "DEL_ADDRESS_5"));
-                Write(oSopPost.Header, "CUST_TEL_NUMBER", (String)Read(oSalesRecord, "TELEPHONE"));
-                Write(oSopPost.Header, "CONTACT_NAME", (String)"Chris Reed");
-                Write(oSopPost.Header, "GLOBAL_TAX_CODE", (Int16)Read(oSalesRecord, "DEF_TAX_CODE"));
+
+                Write(oSopPost.Header, "DEL_ADDRESS_1", (String)p.DeliveryAddress1);
+                Write(oSopPost.Header, "DEL_ADDRESS_2", (String)Read(p.DeliveryAddress2, "DEL_ADDRESS_2"));
+                Write(oSopPost.Header, "DEL_ADDRESS_3", (String)Read(p.DeliveryAddress3, "DEL_ADDRESS_3"));
+                Write(oSopPost.Header, "DEL_ADDRESS_4", (String)Read(p.DeliveryAddress3, "DEL_ADDRESS_4"));
+                Write(oSopPost.Header, "DEL_ADDRESS_5", (String)Read(p.DeliveryAddress4, "DEL_ADDRESS_5"));
+                Write(oSopPost.Header, "CUST_TEL_NUMBER", (String)Read(p.DeliveryAddress5, "TELEPHONE"));
+                Write(oSopPost.Header, "CONTACT_NAME", (String) p.ContactName);
 
                 //Populate other header information
-                Write(oSopPost.Header, "ORDER_DATE", (DateTime)DateTime.Today);
-                Write(oSopPost.Header, "NOTES_1", (String)"");
-                Write(oSopPost.Header, "NOTES_2", (String)"");
-                Write(oSopPost.Header, "NOTES_3", (String)"");
-                Write(oSopPost.Header, "TAKEN_BY", (String)"Mark Steel");
+                Write(oSopPost.Header, "ORDER_DATE", (DateTime)p.OrderDate);
+                Write(oSopPost.Header, "NOTES_1", (String)p.Notes1);
+                Write(oSopPost.Header, "NOTES_2", (String)p.Notes2);
+                Write(oSopPost.Header, "NOTES_3", (String)p.Notes3);
+                Write(oSopPost.Header, "TAKEN_BY", (String)p.TakenBy);
+
                 // If anything is entered in the GLOBAL_NOM_CODE, all of the updated invoice’s splits will have this 
                 // nominal code and also this willforce anything entered in the GLOBAL_DETAILS field into the all
                 // the splits details field. 
-                Write(oSopPost.Header, "GLOBAL_NOM_CODE", (String)"");
-                Write(oSopPost.Header, "GLOBAL_DETAILS", (String)"");
+                //Write(oSopPost.Header, "GLOBAL_NOM_CODE", (String)"");
+                //Write(oSopPost.Header, "GLOBAL_DETAILS", (String)"");
+
+                //Write(oSopPost.Header, "GLOBAL_TAX_CODE", (Int16)Read(oSalesRecord, "DEF_TAX_CODE"));
 
                 //Create and order item
-                oSopItem = (SageDataObject240.SopItem)Add(oSopPost.Items);
+                foreach (SageSalesOrderPost.Item postItem in p.Items)
+                {
+                    oSopItem = (SageDataObject240.SopItem)Add(oSopPost.Items);
 
-                //Read the first stock code
-                oStockRecord.MoveFirst();
-                Write(oSopItem, "STOCK_CODE", (String)Read(oStockRecord, "STOCK_CODE"));
-                Write(oSopItem, "DESCRIPTION", (String)Read(oStockRecord, "DESCRIPTION"));
-                Write(oSopItem, "NOMINAL_CODE", (String)Read(oStockRecord, "NOMINAL_CODE"));
-                Write(oSopItem, "TAX_CODE", (Int16)Read(oStockRecord, "TAX_CODE"));
+                    //Read the first stock code
+                    Write(oSopItem, "STOCK_CODE", (String)postItem.StockCode);
 
-                //Populate other fields required for SOP Item
-                //From 2015 the update method now wraps internal business logic 
-                //that calculates the vat amount if a net amount is given.
-                //If you wish to calculate your own Tax values you will need
-                //to ensure that you set the TAX_FLAG to 1 and set the TAX_AMOUNT value on the item line
-                //***Note if a NVD is set the item line values will be recalculated 
-                //regardless of the Tax_Flag being set to 1***
-                Write(oSopItem, "QTY_ORDER", (Double)2);
-                Write(oSopItem, "UNIT_PRICE", (Double)100);
-                Write(oSopItem, "NET_AMOUNT", (Double)200);
-                Write(oSopItem, "FULL_NET_AMOUNT", (Double)200);
-                Write(oSopItem, "COMMENT_1", (String)"");
-                Write(oSopItem, "COMMENT_2", (String)"");
-                Write(oSopItem, "UNIT_OF_SALE", (String)"");
-                Write(oSopItem, "TAX_RATE", (Double)20);
-                Write(oSopItem, "TAX_CODE", (Int16)1);
+                    if (!oStockRecord.Find(false))
+                        throw new Exception($"Invalid stock code:{postItem.StockCode}");
+                    
+                    Write(oSopItem, "STOCK_CODE", (String)postItem.StockCode);
+                    Write(oSopItem, "DESCRIPTION", postItem.Description);
+                    Write(oSopItem, "NOMINAL_CODE", postItem.NominalCode);
+                    Write(oSopItem, "TAX_CODE", (Int16)postItem.TaxCode);
+
+                    //Populate other fields required for SOP Item
+                    //From 2015 the update method now wraps internal business logic 
+                    //that calculates the vat amount if a net amount is given.
+                    //If you wish to calculate your own Tax values you will need
+                    //to ensure that you set the TAX_FLAG to 1 and set the TAX_AMOUNT value on the item line
+                    //***Note if a NVD is set the item line values will be recalculated 
+                    //regardless of the Tax_Flag being set to 1***
+                    Write(oSopItem, "QTY_ORDER", (Double)postItem.Quantity);
+                    Write(oSopItem, "UNIT_PRICE", (Double)postItem.UnitPrice);
+                    Write(oSopItem, "NET_AMOUNT", (Double)postItem.NetAmount);
+                    Write(oSopItem, "FULL_NET_AMOUNT", (Double)postItem.FullNetAmount);
+                    Write(oSopItem, "COMMENT_1", (String)postItem.Comment1);
+                    Write(oSopItem, "COMMENT_2", (String)postItem.Comment2);
+                    Write(oSopItem, "UNIT_OF_SALE", (String)postItem.UnitOfSale);
+                    Write(oSopItem, "TAX_RATE", (Double)postItem.TaxRate);
+                    Write(oSopItem, "TAX_CODE", (Int16)postItem.TaxCode);
+                }
+
+                if (!oSopPost.Update())
+                {
+                    GetLastErrorAndThrowException();
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred importing a sales order.");
+                throw new Exception("An error occurred importing a sales order.", ex);
             }
+        }
+
+        private void GetLastErrorAndThrowException()
+        {
+            SDOError sdoError = _engine.LastError;
+            throw new Exception($"{sdoError.Code}: {sdoError.Text}");
         }
     }
 }

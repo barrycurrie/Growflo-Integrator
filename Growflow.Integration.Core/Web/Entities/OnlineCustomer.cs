@@ -25,9 +25,13 @@ namespace Growflo.Integration.Core.Entities.Web
         [JsonProperty("vat_number")]
         public string VatNumber { get; set; }
 
+        [JsonProperty("sage_code")]
+        public string SageCode { get; set; }
+
         //[JsonProperty("")]
         //public string VatCode { get; set; }
 
-        public RootList<OnlineCustomerAddress> InvoiceAddresses { get; set; }
+            [JsonProperty("invoice_address")]
+        public OnlineCustomerAddress InvoiceAddress { get; set; }
     }
 }

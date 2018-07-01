@@ -103,7 +103,6 @@
     </Compile>
     <Compile Include="UIHelper.cs" />
     <Compile Include="WaitCursor.cs" />
-    <Compile Include="Workflow\WorkflowController.cs" />
     <EmbeddedResource Include="DownloadSingleOrderForm.resx">
       <DependentUpon>DownloadSingleOrderForm.cs</DependentUpon>
     </EmbeddedResource>

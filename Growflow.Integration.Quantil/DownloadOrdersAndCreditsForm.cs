@@ -81,7 +81,7 @@ namespace Growflo.Integration.Quantil
 
                 UIHelper.ShowInformationMessage("Import complete!");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 UIHelper.ShowErrorMessage("An unexpected error occurred:" + ex.Message);
             }
@@ -187,68 +187,60 @@ namespace Growflo.Integration.Quantil
 
         private void DownloadAndImportCredits()
         {
-            try
+            int downloaded = 0;
+            int success = 0;
+            int errors = 0;
+
+            var credits = _webController.DownloadCredits();
+
+            while (credits.Count > 0)
             {
-                int downloaded = 0;
-                int success = 0;
-                int errors = 0;
+                downloaded += credits.Count;
 
-                var credits = _webController.DownloadCredits();
-
-                while (credits.Count > 0)
+                foreach (var credit in credits)
                 {
-                    downloaded += credits.Count;
+                    UpdateCreditLabels(downloaded, success, errors);
 
-                    foreach (var credit in credits)
+                    var dataRow = Results.Tables[0].NewRow();
+                    dataRow["InvoiceOrCreditNo"] = credit.CreditNumber;
+                    dataRow["AccountNo"] = credit.AccountIdentifier;
+                    dataRow["OrderNo"] = "";
+                    dataRow["Result"] = false;
+                    dataRow["Message"] = "";
+
+                    try
                     {
-                        UpdateCreditLabels(downloaded, success, errors);
+                        bool isDuplicate = _databaseController.CheckForInvoiceOrCredit(credit.CreditNumber);
+                        int creditNumber = int.Parse(credit.CreditNumber);
 
-                        var dataRow = Results.Tables[0].NewRow();
-                        dataRow["InvoiceOrCreditNo"] = credit.CreditNumber;
-                        dataRow["AccountNo"] = credit.AccountIdentifier;
-                        dataRow["OrderNo"] = "";
-                        dataRow["Result"] = false;
-                        dataRow["Message"] = "";
-
-                        try
+                        if (isDuplicate)
                         {
-                            bool isDuplicate = _databaseController.CheckForInvoiceOrCredit(credit.CreditNumber);
-                            int creditNumber = int.Parse(credit.CreditNumber);
-
-                            if (isDuplicate)
-                            {
-                                _webController.ConfirmOrders(new[] { creditNumber });
-                                errors++;
-                                throw new Exception(" Duplicate credit. ");
-                            }
-
-                            var sageInvoice = CreateSageBatchInvoice(credit);
-                            _sageController.CreateBatchInvoice(sageInvoice);
-
-                            _databaseController.SaveInvoiceCredit(credit);
-                            _databaseController.SetInvoiceCreditAsImported(credit.CreditNumber);
-
-                            _webController.ConfirmCredits(new int[] { creditNumber });
-
-                            success++;
-                            dataRow["Result"] = true;
-                            dataRow["Message"] = "OK";
-                        }
-                        catch (Exception ex)
-                        {
-                            errors++;
-                            dataRow["Message"] = ex.Message;
+                            _webController.ConfirmCredits(new[] { credit.Id });
+                            throw new Exception(" Duplicate credit. ");
                         }
 
-                        Results.Tables[0].Rows.Add(dataRow);
+                        var sageInvoice = CreateSageBatchInvoice(credit);
+                        _sageController.CreateBatchInvoice(sageInvoice);
+
+                        _databaseController.SaveInvoiceCredit(credit);
+                        _databaseController.SetInvoiceCreditAsImported(credit.CreditNumber);
+
+                        _webController.ConfirmCredits(new int[] { credit.Id });
+
+                        success++;
+                        dataRow["Result"] = true;
+                        dataRow["Message"] = "OK";
+                    }
+                    catch (Exception ex)
+                    {
+                        errors++;
+                        dataRow["Message"] = ex.Message;
                     }
 
-                    credits = _webController.DownloadCredits();
+                    Results.Tables[0].Rows.Add(dataRow);
                 }
-            }
-            catch(Exception ex)
-            {
 
+                credits = _webController.DownloadCredits();
             }
         }
 
@@ -310,31 +302,6 @@ namespace Growflo.Integration.Quantil
             sageBatchInvoice.Splits.AddRange(splits);
 
             return sageBatchInvoice;
-        }
-
-
-        public SageCustomer CreateSageCustomer(OnlineCustomer onlineCustomer)
-        {
-            var sageCustomer = new SageCustomer()
-            {
-                Name = onlineCustomer.Name,
-                AccountNumber = onlineCustomer.Identifier,
-                Email = onlineCustomer.EmailAddress,
-                VatNumber = onlineCustomer.VatNumber
-            };
-
-            var invoiceAddress = onlineCustomer.InvoiceAddresses.data.FirstOrDefault();
-
-            if (invoiceAddress != null)
-            {
-                sageCustomer.InvoiceAddressLine1 = invoiceAddress.Line1;
-                sageCustomer.InvoiceAddressLine2 = invoiceAddress.Line2;
-                sageCustomer.InvoiceAddressLine3 = invoiceAddress.Town;
-                sageCustomer.InvoiceAddressLine4 = invoiceAddress.County;
-                sageCustomer.InvoiceAddressLine5 = invoiceAddress.Postcode;
-            }
-
-            return sageCustomer;
         }
     }
 }

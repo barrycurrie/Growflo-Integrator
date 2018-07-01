@@ -4,7 +4,6 @@ using Growflo.Integration.Core.Email;
 using Growflo.Integration.Core.Sage;
 using Growflo.Integration.Quantil;
 using Growflo.Integration.Quantil.Database;
-using Growflo.Integration.Quantil.Workflow;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

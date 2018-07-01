@@ -60,21 +60,6 @@ namespace Growflo.Integration.Core.Controllers
                     Root<T> root = JsonConvert.DeserializeObject<Root<T>>(response.Content);
                     items.Add(root.data);
                 }
-
-                if (AppSettings.GetInstance().LogJson)
-                {
-                    try
-                    {
-                        string filename = Path.Combine(AppSettings.GetInstance().ApplicationDataPath,
-                            DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".json");
-
-                        File.WriteAllText(filename, response.Content);
-                    }
-                    catch
-                    {
-
-                    }
-                }
             }
             catch(Exception ex)
             {
@@ -120,19 +105,7 @@ namespace Growflo.Integration.Core.Controllers
         public IList<OnlineCustomer> DownloadCustomers()
         {
             List<OnlineCustomer> customers = new List<OnlineCustomer>();
-            try
-            {
-                _logger.Debug("Downloading customers");
-
-                customers.AddRange(ExecuteRestRequest<OnlineCustomer>("customer/?include=invoiceAddresses"));
-
-                _logger.Debug($"Downloaded {customers.Count} customers from the web.");
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("An error occurred retrieving customers from the web: {0}", ex.Message);
-                throw;
-            }
+            customers.AddRange(ExecuteRestRequest<OnlineCustomer>("customer"));
 
             return customers;
         }

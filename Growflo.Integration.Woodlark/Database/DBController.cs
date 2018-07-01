@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Growflo.Integration.Core.Database;
 
-namespace Growflo.Integration.Woodlark
+namespace Growflo.Integration.Woodlark.Database
 {
     public class DBController : DbControllerBase
     {

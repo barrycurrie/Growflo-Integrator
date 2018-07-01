@@ -5,7 +5,7 @@ using System.Data;
 
 namespace Growflo.Integration.Core.Sage
 {
-    public interface ISageController : IDisposable 
+    public interface ISageController : IDisposable
     {
         bool IsConnected { get; }
         void VerifyConnection();
@@ -31,8 +31,6 @@ namespace Growflo.Integration.Core.Sage
         DataSet GetNominalCodesData(string[] columns);
         DataSet GetTaxCodesData();
         DataSet GetCurrenciesData();
-        //void CreateSalesOrder(DataSet dataSet);
-        //bool PostSalesOrder(DataRow salesOrders);
-        //bool PostSalesOrders(DataTable salesOrders);
+        void PostSalesOrder(SageSalesOrderPost sageSalesOrder);
     }
 }

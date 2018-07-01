@@ -1,0 +1,5540 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Growflo API</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism-okaidia.min.css" />
+    <style>
+      blockquote {
+        border-left: solid 4px #eee;
+        padding-left: 8px;
+        font-style: italic;
+        margin-left: 0;
+        padding: 8px;
+      }
+
+      .ui.micro.label {
+        font-size: .25rem;
+      }
+
+      .ui.transaction.accordion .title {
+        text-align: center;
+      }
+
+      .ui.transaction.accordion .content {
+        border-top: solid 1px #ddd !important;
+        border-bottom: solid 1px #ddd !important;
+        background-color: rgba(0,0,0,.03);
+        padding: 0.5em 1em !important;
+      }
+
+      .ui.transaction.accordion .content.active {
+        margin-top: 0.5em;
+      }
+
+      .ui.basic.label {
+        text-align: left;
+        overflow: auto;
+      }
+
+      .resource .ui.sub.header {
+        text-transform: none;
+      }
+
+      @media only screen and (min-width: 768px) {
+        .sidewrap {
+          margin-right: 2rem;
+        }
+
+        .sidenav {
+          left: 0;
+          top: 0;
+          width: inherit;
+          position: fixed !important;
+          height: 100% !important;
+          overflow-y: auto !important;
+          padding-left: 0.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ui padded grid">
+      <div class="sidewrap four wide computer five wide tablet sixteen wide mobile column">
+        <div class="sidenav">
+          
+<div class="ui horizontal divider">
+  <a href="#introduction">Introduction</a>
+</div>
+<div class="ui fluid secondary vertical menu">
+  <a class="item" href="#introduction">Growflo API</a>
+</div>
+
+
+<div class="ui accordion fluid">
+  
+    
+    <div class="title active">
+      <i class="dropdown icon"></i>
+      
+        <strong>Orders</strong>
+      
+    </div>
+    <div class="content active">
+      <div class="ui fluid secondary vertical menu">
+      
+        <a class="item green" href="#orders-get-all-orders">
+          <i class="ui green empty circular label"></i>
+          
+            <span>Get all Orders</span>
+          
+        </a>
+      
+        <a class="item green" href="#orders-get-a-specific-order">
+          <i class="ui green empty circular label"></i>
+          
+            <span>Get a specific Order</span>
+          
+        </a>
+      
+        <a class="item blue" href="#orders-create-an-order">
+          <i class="ui blue empty circular label"></i>
+          
+            <span>Create an Order</span>
+          
+        </a>
+      
+        <a class="item " href="#orders-update-an-order">
+          <i class="ui  empty circular label"></i>
+          
+            <span>Update an Order</span>
+          
+        </a>
+      
+        <a class="item red" href="#orders-delete-an-order">
+          <i class="ui red empty circular label"></i>
+          
+            <span>Delete an Order</span>
+          
+        </a>
+      
+        <a class="item teal" href="#orders-update-delivery-address">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Update Delivery Address</span>
+          
+        </a>
+      
+        <a class="item teal" href="#orders-update-invoice-address">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Update Invoice Address</span>
+          
+        </a>
+      
+        <a class="item teal" href="#orders-update-notes">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Update Notes</span>
+          
+        </a>
+      
+        <a class="item teal" href="#orders-update-discount">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Update Discount</span>
+          
+        </a>
+      
+        <a class="item teal" href="#orders-update-purchase-number">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Update Purchase Number</span>
+          
+        </a>
+      
+        <a class="item teal" href="#orders-update-%27ordered-for%27-date">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Update &#39;Ordered For&#39; Date</span>
+          
+        </a>
+      
+        <a class="item teal" href="#orders-update-pick-list">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Update Pick List</span>
+          
+        </a>
+      
+        <a class="item teal" href="#orders-update-status">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Update Status</span>
+          
+        </a>
+      
+        <a class="item blue" href="#orders-send-document">
+          <i class="ui blue empty circular label"></i>
+          
+            <span>Send Document</span>
+          
+        </a>
+      
+        <a class="item green" href="#orders-can-order-check">
+          <i class="ui green empty circular label"></i>
+          
+            <span>Can Order Check</span>
+          
+        </a>
+      
+      </div>
+    </div>
+    
+  
+    
+    <div class="title ">
+      <i class="dropdown icon"></i>
+      
+        <strong>Order Bulk Actions</strong>
+      
+    </div>
+    <div class="content ">
+      <div class="ui fluid secondary vertical menu">
+      
+        <a class="item red" href="#order-bulk-actions-delete-orders">
+          <i class="ui red empty circular label"></i>
+          
+            <span>Delete Orders</span>
+          
+        </a>
+      
+        <a class="item teal" href="#order-bulk-actions-update-field-values">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Update Field Values</span>
+          
+        </a>
+      
+        <a class="item teal" href="#order-bulk-actions-update-status">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Update Status</span>
+          
+        </a>
+      
+        <a class="item teal" href="#order-bulk-actions-send%2fprint-document">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Send/Print Document</span>
+          
+        </a>
+      
+        <a class="item teal" href="#order-bulk-actions-assign-pick-list">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Assign Pick List</span>
+          
+        </a>
+      
+        <a class="item blue" href="#order-bulk-actions-sage%3a-mark-ready">
+          <i class="ui blue empty circular label"></i>
+          
+            <span>Sage: Mark Ready</span>
+          
+        </a>
+      
+        <a class="item teal" href="#order-bulk-actions-sage%3a-mark-sent">
+          <i class="ui teal empty circular label"></i>
+          
+            <span>Sage: Mark Sent</span>
+          
+        </a>
+      
+        <a class="item blue" href="#order-bulk-actions-post-delivery">
+          <i class="ui blue empty circular label"></i>
+          
+            <span>Post Delivery</span>
+          
+        </a>
+      
+        <a class="item blue" href="#order-bulk-actions-confirm-delivery">
+          <i class="ui blue empty circular label"></i>
+          
+            <span>Confirm Delivery</span>
+          
+        </a>
+      
+        <a class="item blue" href="#order-bulk-actions-get-delivery-labels">
+          <i class="ui blue empty circular label"></i>
+          
+            <span>Get Delivery Labels</span>
+          
+        </a>
+      
+      </div>
+    </div>
+    
+  
+</div>
+
+
+        </div>
+      </div>
+      <div class="eleven wide computer ten wide tablet sixteen wide mobile column">
+        
+<div class="ui hidden divider header"></div>
+<h1 class="ui huge header" id="introduction">Growflo API</h1>
+<hr class="ui divider">
+<div class="description">
+  
+</div>
+
+        <div class="ui hidden divider"></div>
+        
+
+  <div class="ui horizontal divider" >
+    
+  </div>
+  <div class="ui header center aligned">
+    <div class="ui sub header">
+      
+    </div>
+  </div>
+  
+    
+      <div class="ui stacked segments">
+        <div class="ui basic segment resource">
+          <div class="ui purple huge ribbon label">
+            Orders
+          </div>
+          <div class="ui header">
+            <div class="ui sub header">
+              <p>Class OrderController</p>
+
+            </div>
+          </div>
+        </div>
+
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-get-all-orders">
+              Get all Orders
+            </h3>
+            <div class="description"><p>Get a JSON representation of all the items.</p>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui green large button">
+                  <h3>GET</h3>
+                </div>
+                <a class="ui basic fluid green label">
+                  <code>/order</code>
+                </a>
+              </div>
+              
+              
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: [
+        {
+            &#34;id&#34;: 33,
+            &#34;status&#34;: 13,
+            &#34;status_text&#34;: &#34;picking&#34;,
+            &#34;customer_id&#34;: 652,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 1304,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 1303,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 258,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 20,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 238
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: &#34;F&#34;,
+                &#34;value&#34;: 20,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 43,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: null,
+                &#34;created_at&#34;: &#34;2017-11-24 14:36:38&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-27 12:14:48&#34;,
+                &#34;week&#34;: 47
+            }
+        },
+        {
+            &#34;id&#34;: 36,
+            &#34;status&#34;: 1,
+            &#34;status_text&#34;: &#34;draft&#34;,
+            &#34;customer_id&#34;: 119,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 238,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 237,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 3498,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 0,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 3498
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: null,
+                &#34;value&#34;: 0,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 401,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: null,
+                &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+                &#34;week&#34;: 47
+            }
+        }
+    ]
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-get-a-specific-order">
+              Get a specific Order
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui green large button">
+                  <h3>GET</h3>
+                </div>
+                <a class="ui basic fluid green label">
+                  <code>/order/{order}</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: {
+        &#34;id&#34;: 36,
+        &#34;status&#34;: 1,
+        &#34;status_text&#34;: &#34;draft&#34;,
+        &#34;customer_id&#34;: 119,
+        &#34;currency_id&#34;: 19,
+        &#34;pick_list_id&#34;: 6,
+        &#34;delivery_address_id&#34;: 238,
+        &#34;delivery_method&#34;: null,
+        &#34;delivery_status&#34;: null,
+        &#34;delivery_id&#34;: null,
+        &#34;invoice_address_id&#34;: 237,
+        &#34;purchase_number&#34;: null,
+        &#34;delivery&#34;: {
+            &#34;method&#34;: null,
+            &#34;status&#34;: null,
+            &#34;id&#34;: null
+        },
+        &#34;notes&#34;: {
+            &#34;public&#34;: null,
+            &#34;private&#34;: null
+        },
+        &#34;totals&#34;: {
+            &#34;sub&#34;: 3498,
+            &#34;vat&#34;: 0,
+            &#34;discount&#34;: 0,
+            &#34;shipping&#34;: 0,
+            &#34;total&#34;: 3498
+        },
+        &#34;discount&#34;: {
+            &#34;type&#34;: null,
+            &#34;value&#34;: 0,
+            &#34;reason&#34;: null
+        },
+        &#34;counts&#34;: {
+            &#34;pot&#34;: 0,
+            &#34;strip&#34;: 0,
+            &#34;other&#34;: 0,
+            &#34;tray&#34;: 401,
+            &#34;shelf&#34;: 0
+        },
+        &#34;dates&#34;: {
+            &#34;invoiced&#34;: null,
+            &#34;delivery_note&#34;: null,
+            &#34;acknowledgement&#34;: null,
+            &#34;sage_sent&#34;: null,
+            &#34;archived&#34;: null,
+            &#34;ordered_for&#34;: null,
+            &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+            &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+            &#34;week&#34;: 47
+        }
+    }
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-create-an-order">
+              Create an Order
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui blue large button">
+                  <h3>POST</h3>
+                </div>
+                <a class="ui basic fluid blue label">
+                  <code>/order</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;customer&#34;: 119
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: {
+        &#34;id&#34;: 36,
+        &#34;status&#34;: 1,
+        &#34;status_text&#34;: &#34;draft&#34;,
+        &#34;customer_id&#34;: 119,
+        &#34;currency_id&#34;: 19,
+        &#34;pick_list_id&#34;: null,
+        &#34;delivery_address_id&#34;: 238,
+        &#34;delivery_method&#34;: null,
+        &#34;delivery_status&#34;: null,
+        &#34;delivery_id&#34;: null,
+        &#34;invoice_address_id&#34;: 237,
+        &#34;purchase_number&#34;: null,
+        &#34;delivery&#34;: {
+            &#34;method&#34;: null,
+            &#34;status&#34;: null,
+            &#34;id&#34;: null
+        },
+        &#34;notes&#34;: {
+            &#34;public&#34;: null,
+            &#34;private&#34;: null
+        },
+        &#34;totals&#34;: {
+            &#34;sub&#34;: 0,
+            &#34;vat&#34;: 0,
+            &#34;discount&#34;: 0,
+            &#34;shipping&#34;: 0,
+            &#34;total&#34;: 3498
+        },
+        &#34;discount&#34;: {
+            &#34;type&#34;: null,
+            &#34;value&#34;: 0,
+            &#34;reason&#34;: null
+        },
+        &#34;counts&#34;: {
+            &#34;pot&#34;: 0,
+            &#34;strip&#34;: 0,
+            &#34;other&#34;: 0,
+            &#34;tray&#34;: 401,
+            &#34;shelf&#34;: 0
+        },
+        &#34;dates&#34;: {
+            &#34;invoiced&#34;: null,
+            &#34;delivery_note&#34;: null,
+            &#34;acknowledgement&#34;: null,
+            &#34;sage_sent&#34;: null,
+            &#34;archived&#34;: null,
+            &#34;ordered_for&#34;: null,
+            &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+            &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+            &#34;week&#34;: 47
+        }
+    }
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-update-an-order">
+              Update an Order
+            </h3>
+            <div class="description"><p>This endpoint should NOT be used for updating an order, which is why it&rsquo;s undocumented. All functionality is
+available through other endpoints.</p>
+</div>
+
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-delete-an-order">
+              Delete an Order
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui red large button">
+                  <h3>DELETE</h3>
+                </div>
+                <a class="ui basic fluid red label">
+                  <code>/order/{order}</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;deleted&#34;: true
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-update-delivery-address">
+              Update Delivery Address
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/{order}/deliveryAddress</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;address_id&#34;: 236
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: {
+        &#34;id&#34;: 36,
+        &#34;status&#34;: 1,
+        &#34;status_text&#34;: &#34;draft&#34;,
+        &#34;customer_id&#34;: 119,
+        &#34;currency_id&#34;: 19,
+        &#34;pick_list_id&#34;: null,
+        &#34;delivery_address_id&#34;: 238,
+        &#34;delivery_method&#34;: null,
+        &#34;delivery_status&#34;: null,
+        &#34;delivery_id&#34;: null,
+        &#34;invoice_address_id&#34;: 237,
+        &#34;purchase_number&#34;: null,
+        &#34;delivery&#34;: {
+            &#34;method&#34;: null,
+            &#34;status&#34;: null,
+            &#34;id&#34;: null
+        },
+        &#34;notes&#34;: {
+            &#34;public&#34;: null,
+            &#34;private&#34;: null
+        },
+        &#34;totals&#34;: {
+            &#34;sub&#34;: 0,
+            &#34;vat&#34;: 0,
+            &#34;discount&#34;: 0,
+            &#34;shipping&#34;: 0,
+            &#34;total&#34;: 3498
+        },
+        &#34;discount&#34;: {
+            &#34;type&#34;: null,
+            &#34;value&#34;: 0,
+            &#34;reason&#34;: null
+        },
+        &#34;counts&#34;: {
+            &#34;pot&#34;: 0,
+            &#34;strip&#34;: 0,
+            &#34;other&#34;: 0,
+            &#34;tray&#34;: 401,
+            &#34;shelf&#34;: 0
+        },
+        &#34;dates&#34;: {
+            &#34;invoiced&#34;: null,
+            &#34;delivery_note&#34;: null,
+            &#34;acknowledgement&#34;: null,
+            &#34;sage_sent&#34;: null,
+            &#34;archived&#34;: null,
+            &#34;ordered_for&#34;: null,
+            &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+            &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+            &#34;week&#34;: 47
+        }
+    }
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-update-invoice-address">
+              Update Invoice Address
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/{order}/invoiceAddress</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;address_id&#34;: 237
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: {
+        &#34;id&#34;: 36,
+        &#34;status&#34;: 1,
+        &#34;status_text&#34;: &#34;draft&#34;,
+        &#34;customer_id&#34;: 119,
+        &#34;currency_id&#34;: 19,
+        &#34;pick_list_id&#34;: null,
+        &#34;delivery_address_id&#34;: 238,
+        &#34;delivery_method&#34;: null,
+        &#34;delivery_status&#34;: null,
+        &#34;delivery_id&#34;: null,
+        &#34;invoice_address_id&#34;: 237,
+        &#34;purchase_number&#34;: null,
+        &#34;delivery&#34;: {
+            &#34;method&#34;: null,
+            &#34;status&#34;: null,
+            &#34;id&#34;: null
+        },
+        &#34;notes&#34;: {
+            &#34;public&#34;: null,
+            &#34;private&#34;: null
+        },
+        &#34;totals&#34;: {
+            &#34;sub&#34;: 0,
+            &#34;vat&#34;: 0,
+            &#34;discount&#34;: 0,
+            &#34;shipping&#34;: 0,
+            &#34;total&#34;: 3498
+        },
+        &#34;discount&#34;: {
+            &#34;type&#34;: null,
+            &#34;value&#34;: 0,
+            &#34;reason&#34;: null
+        },
+        &#34;counts&#34;: {
+            &#34;pot&#34;: 0,
+            &#34;strip&#34;: 0,
+            &#34;other&#34;: 0,
+            &#34;tray&#34;: 401,
+            &#34;shelf&#34;: 0
+        },
+        &#34;dates&#34;: {
+            &#34;invoiced&#34;: null,
+            &#34;delivery_note&#34;: null,
+            &#34;acknowledgement&#34;: null,
+            &#34;sage_sent&#34;: null,
+            &#34;archived&#34;: null,
+            &#34;ordered_for&#34;: null,
+            &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+            &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+            &#34;week&#34;: 47
+        }
+    }
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-update-notes">
+              Update Notes
+            </h3>
+            <div class="description"><p>If the type field is set to &ldquo;private&rdquo; it will store the contents of the notes in the private field.</p>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/{order}/note</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;type&#34;: &#34;public&#34;,
+    &#34;content&#34;: &#34;Example Notes&#34;
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: {
+        &#34;id&#34;: 36,
+        &#34;status&#34;: 1,
+        &#34;status_text&#34;: &#34;draft&#34;,
+        &#34;customer_id&#34;: 119,
+        &#34;currency_id&#34;: 19,
+        &#34;pick_list_id&#34;: null,
+        &#34;delivery_address_id&#34;: 238,
+        &#34;delivery_method&#34;: null,
+        &#34;delivery_status&#34;: null,
+        &#34;delivery_id&#34;: null,
+        &#34;invoice_address_id&#34;: 237,
+        &#34;purchase_number&#34;: null,
+        &#34;delivery&#34;: {
+            &#34;method&#34;: null,
+            &#34;status&#34;: null,
+            &#34;id&#34;: null
+        },
+        &#34;notes&#34;: {
+            &#34;public&#34;: &#34;Example Notes&#34;,
+            &#34;private&#34;: null
+        },
+        &#34;totals&#34;: {
+            &#34;sub&#34;: 0,
+            &#34;vat&#34;: 0,
+            &#34;discount&#34;: 0,
+            &#34;shipping&#34;: 0,
+            &#34;total&#34;: 3498
+        },
+        &#34;discount&#34;: {
+            &#34;type&#34;: null,
+            &#34;value&#34;: 0,
+            &#34;reason&#34;: null
+        },
+        &#34;counts&#34;: {
+            &#34;pot&#34;: 0,
+            &#34;strip&#34;: 0,
+            &#34;other&#34;: 0,
+            &#34;tray&#34;: 401,
+            &#34;shelf&#34;: 0
+        },
+        &#34;dates&#34;: {
+            &#34;invoiced&#34;: null,
+            &#34;delivery_note&#34;: null,
+            &#34;acknowledgement&#34;: null,
+            &#34;sage_sent&#34;: null,
+            &#34;archived&#34;: null,
+            &#34;ordered_for&#34;: null,
+            &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+            &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+            &#34;week&#34;: 47
+        }
+    }
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-update-discount">
+              Update Discount
+            </h3>
+            <div class="description"><p>Available types:</p>
+
+<ul>
+<li><p>&ldquo;F&rdquo; for Fixed amount</p></li>
+
+<li><p>&ldquo;P&rdquo; for percentage based amount</p></li>
+</ul>
+
+<p>Reason is optional.</p>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/{order}/discount</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;type&#34;: &#34;F&#34;,
+    &#34;value&#34;: 20,
+    &#34;reason&#34;: null
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: {
+        &#34;id&#34;: 36,
+        &#34;status&#34;: 1,
+        &#34;status_text&#34;: &#34;draft&#34;,
+        &#34;customer_id&#34;: 119,
+        &#34;currency_id&#34;: 19,
+        &#34;pick_list_id&#34;: null,
+        &#34;delivery_address_id&#34;: 238,
+        &#34;delivery_method&#34;: null,
+        &#34;delivery_status&#34;: null,
+        &#34;delivery_id&#34;: null,
+        &#34;invoice_address_id&#34;: 237,
+        &#34;purchase_number&#34;: null,
+        &#34;delivery&#34;: {
+            &#34;method&#34;: null,
+            &#34;status&#34;: null,
+            &#34;id&#34;: null
+        },
+        &#34;notes&#34;: {
+            &#34;public&#34;: &#34;Example Notes&#34;,
+            &#34;private&#34;: null
+        },
+        &#34;totals&#34;: {
+            &#34;sub&#34;: 0,
+            &#34;vat&#34;: 0,
+            &#34;discount&#34;: 0,
+            &#34;shipping&#34;: 0,
+            &#34;total&#34;: 3498
+        },
+        &#34;discount&#34;: {
+            &#34;type&#34;: &#34;F&#34;,
+            &#34;value&#34;: 20,
+            &#34;reason&#34;: null
+        },
+        &#34;counts&#34;: {
+            &#34;pot&#34;: 0,
+            &#34;strip&#34;: 0,
+            &#34;other&#34;: 0,
+            &#34;tray&#34;: 401,
+            &#34;shelf&#34;: 0
+        },
+        &#34;dates&#34;: {
+            &#34;invoiced&#34;: null,
+            &#34;delivery_note&#34;: null,
+            &#34;acknowledgement&#34;: null,
+            &#34;sage_sent&#34;: null,
+            &#34;archived&#34;: null,
+            &#34;ordered_for&#34;: null,
+            &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+            &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+            &#34;week&#34;: 47
+        }
+    }
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-update-purchase-number">
+              Update Purchase Number
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/{order}/purchaseNumber</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;purchase_number&#34;: &#34;ABC123&#34;
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: {
+        &#34;id&#34;: 36,
+        &#34;status&#34;: 1,
+        &#34;status_text&#34;: &#34;draft&#34;,
+        &#34;customer_id&#34;: 119,
+        &#34;currency_id&#34;: 19,
+        &#34;pick_list_id&#34;: null,
+        &#34;delivery_address_id&#34;: 238,
+        &#34;delivery_method&#34;: null,
+        &#34;delivery_status&#34;: null,
+        &#34;delivery_id&#34;: null,
+        &#34;invoice_address_id&#34;: 237,
+        &#34;purchase_number&#34;: &#34;ABC123&#34;,
+        &#34;delivery&#34;: {
+            &#34;method&#34;: null,
+            &#34;status&#34;: null,
+            &#34;id&#34;: null
+        },
+        &#34;notes&#34;: {
+            &#34;public&#34;: &#34;Example Notes&#34;,
+            &#34;private&#34;: null
+        },
+        &#34;totals&#34;: {
+            &#34;sub&#34;: 0,
+            &#34;vat&#34;: 0,
+            &#34;discount&#34;: 0,
+            &#34;shipping&#34;: 0,
+            &#34;total&#34;: 3498
+        },
+        &#34;discount&#34;: {
+            &#34;type&#34;: null,
+            &#34;value&#34;: 0,
+            &#34;reason&#34;: null
+        },
+        &#34;counts&#34;: {
+            &#34;pot&#34;: 0,
+            &#34;strip&#34;: 0,
+            &#34;other&#34;: 0,
+            &#34;tray&#34;: 401,
+            &#34;shelf&#34;: 0
+        },
+        &#34;dates&#34;: {
+            &#34;invoiced&#34;: null,
+            &#34;delivery_note&#34;: null,
+            &#34;acknowledgement&#34;: null,
+            &#34;sage_sent&#34;: null,
+            &#34;archived&#34;: null,
+            &#34;ordered_for&#34;: null,
+            &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+            &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+            &#34;week&#34;: 47
+        }
+    }
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-update-&#39;ordered-for&#39;-date">
+              Update &#39;Ordered For&#39; Date
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/orderedFor</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;ordered_for_at&#34;: &#34;2017-12-15&#34;
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: {
+        &#34;id&#34;: 36,
+        &#34;status&#34;: 1,
+        &#34;status_text&#34;: &#34;draft&#34;,
+        &#34;customer_id&#34;: 119,
+        &#34;currency_id&#34;: 19,
+        &#34;pick_list_id&#34;: null,
+        &#34;delivery_address_id&#34;: 238,
+        &#34;delivery_method&#34;: null,
+        &#34;delivery_status&#34;: null,
+        &#34;delivery_id&#34;: null,
+        &#34;invoice_address_id&#34;: 237,
+        &#34;purchase_number&#34;: null,
+        &#34;delivery&#34;: {
+            &#34;method&#34;: null,
+            &#34;status&#34;: null,
+            &#34;id&#34;: null
+        },
+        &#34;notes&#34;: {
+            &#34;public&#34;: &#34;Example  Notes&#34;,
+            &#34;private&#34;: null
+        },
+        &#34;totals&#34;: {
+            &#34;sub&#34;: 0,
+            &#34;vat&#34;: 0,
+            &#34;discount&#34;: 0,
+            &#34;shipping&#34;: 0,
+            &#34;total&#34;: 3498
+        },
+        &#34;discount&#34;: {
+            &#34;type&#34;: null,
+            &#34;value&#34;: 0,
+            &#34;reason&#34;: null
+        },
+        &#34;counts&#34;: {
+            &#34;pot&#34;: 0,
+            &#34;strip&#34;: 0,
+            &#34;other&#34;: 0,
+            &#34;tray&#34;: 401,
+            &#34;shelf&#34;: 0
+        },
+        &#34;dates&#34;: {
+            &#34;invoiced&#34;: null,
+            &#34;delivery_note&#34;: null,
+            &#34;acknowledgement&#34;: null,
+            &#34;sage_sent&#34;: null,
+            &#34;archived&#34;: null,
+            &#34;ordered_for&#34;: &#34;2017-12-15&#34;,
+            &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+            &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+            &#34;week&#34;: 53
+        }
+    }
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-update-pick-list">
+              Update Pick List
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/pickList</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;pick_list_id&#34;: 6
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: {
+        &#34;id&#34;: 36,
+        &#34;status&#34;: 1,
+        &#34;status_text&#34;: &#34;draft&#34;,
+        &#34;customer_id&#34;: 119,
+        &#34;currency_id&#34;: 19,
+        &#34;pick_list_id&#34;: 6,
+        &#34;delivery_address_id&#34;: 238,
+        &#34;delivery_method&#34;: null,
+        &#34;delivery_status&#34;: null,
+        &#34;delivery_id&#34;: null,
+        &#34;invoice_address_id&#34;: 237,
+        &#34;purchase_number&#34;: null,
+        &#34;delivery&#34;: {
+            &#34;method&#34;: null,
+            &#34;status&#34;: null,
+            &#34;id&#34;: null
+        },
+        &#34;notes&#34;: {
+            &#34;public&#34;: &#34;Example Notes&#34;,
+            &#34;private&#34;: null
+        },
+        &#34;totals&#34;: {
+            &#34;sub&#34;: 0,
+            &#34;vat&#34;: 0,
+            &#34;discount&#34;: 0,
+            &#34;shipping&#34;: 0,
+            &#34;total&#34;: 3498
+        },
+        &#34;discount&#34;: {
+            &#34;type&#34;: null,
+            &#34;value&#34;: 0,
+            &#34;reason&#34;: null
+        },
+        &#34;counts&#34;: {
+            &#34;pot&#34;: 0,
+            &#34;strip&#34;: 0,
+            &#34;other&#34;: 0,
+            &#34;tray&#34;: 401,
+            &#34;shelf&#34;: 0
+        },
+        &#34;dates&#34;: {
+            &#34;invoiced&#34;: null,
+            &#34;delivery_note&#34;: null,
+            &#34;acknowledgement&#34;: null,
+            &#34;sage_sent&#34;: null,
+            &#34;archived&#34;: null,
+            &#34;ordered_for&#34;: null,
+            &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+            &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+            &#34;week&#34;: 47
+        }
+    }
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-update-status">
+              Update Status
+            </h3>
+            <div class="description"><p>This end point moves the order status. Below are the following numeric order status&rsquo;.</p>
+
+<table>
+<thead>
+<tr>
+<th>Status Code</th>
+<th>Status Name</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0</td>
+<td>Pending</td>
+</tr>
+
+<tr>
+<td>1</td>
+<td>Draft</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Web</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>EDI</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>Reserved</td>
+</tr>
+
+<tr>
+<td>9</td>
+<td>Delivery</td>
+</tr>
+
+<tr>
+<td>11</td>
+<td>Confirmed</td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>Picking</td>
+</tr>
+
+<tr>
+<td>15</td>
+<td>Invoice</td>
+</tr>
+</tbody>
+</table>
+
+<p>This endpoint only accepts the status code.</p>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/{order}/move</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;status&#34;: 3
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: {
+        &#34;id&#34;: 36,
+        &#34;status&#34;: 3,
+        &#34;status_text&#34;: &#34;draft&#34;,
+        &#34;customer_id&#34;: 119,
+        &#34;currency_id&#34;: 19,
+        &#34;pick_list_id&#34;: null,
+        &#34;delivery_address_id&#34;: 238,
+        &#34;delivery_method&#34;: null,
+        &#34;delivery_status&#34;: null,
+        &#34;delivery_id&#34;: null,
+        &#34;invoice_address_id&#34;: 237,
+        &#34;purchase_number&#34;: null,
+        &#34;delivery&#34;: {
+            &#34;method&#34;: null,
+            &#34;status&#34;: null,
+            &#34;id&#34;: null
+        },
+        &#34;notes&#34;: {
+            &#34;public&#34;: &#34;ExampleNotes&#34;,
+            &#34;private&#34;: null
+        },
+        &#34;totals&#34;: {
+            &#34;sub&#34;: 0,
+            &#34;vat&#34;: 0,
+            &#34;discount&#34;: 0,
+            &#34;shipping&#34;: 0,
+            &#34;total&#34;: 3498
+        },
+        &#34;discount&#34;: {
+            &#34;type&#34;: null,
+            &#34;value&#34;: 0,
+            &#34;reason&#34;: null
+        },
+        &#34;counts&#34;: {
+            &#34;pot&#34;: 0,
+            &#34;strip&#34;: 0,
+            &#34;other&#34;: 0,
+            &#34;tray&#34;: 401,
+            &#34;shelf&#34;: 0
+        },
+        &#34;dates&#34;: {
+            &#34;invoiced&#34;: null,
+            &#34;delivery_note&#34;: null,
+            &#34;acknowledgement&#34;: null,
+            &#34;sage_sent&#34;: null,
+            &#34;archived&#34;: null,
+            &#34;ordered_for&#34;: null,
+            &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+            &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+            &#34;week&#34;: 47
+        }
+    }
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-send-document">
+              Send Document
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui blue large button">
+                  <h3>POST</h3>
+                </div>
+                <a class="ui basic fluid blue label">
+                  <code>/order/{order}/document/{type}</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>type</code></td>
+      <td class="center aligned">
+        <code>string</code>
+        <code class="ui label">orderAcknowledgement</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The type of document you want to send.</p>
+
+<ul>
+<li><p>Example types:</p></li>
+
+<li><ul>
+<li>orderAcknowledgement</li>
+</ul></li>
+
+<li><ul>
+<li>deliveryNote</li>
+</ul></li>
+
+<li><ul>
+<li>invoice</li>
+</ul></li>
+</ul>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;sent&#34;: true
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="orders-can-order-check">
+              Can Order Check
+            </h3>
+            <div class="description"><p>This endpoint checks to see if the provided customer can put through an order or not. It will return a 200
+status/Success if the customer can. If they cannot order, it will throw a 400 status and the message will return
+what the account is missing.</p>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui green large button">
+                  <h3>GET</h3>
+                </div>
+                <a class="ui basic fluid green label">
+                  <code>/order/canOrder</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;type&#34;: &#34;public&#34;,
+    &#34;content&#34;: &#34;Example Notes&#34;
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;success&#34;: true
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui green large button">
+                  <h3>GET</h3>
+                </div>
+                <a class="ui basic fluid green label">
+                  <code>/order/canOrder</code>
+                </a>
+              </div>
+              
+                <table class="ui celled definition table">
+                  <thead>
+                    <tr>
+                      <th colspan="4">Parameters</th>
+                    </tr>
+                  <thead>
+                  <tbody>
+                    
+                      
+  
+    <tr>
+      <td class="center aligned one wide">
+        <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+      </td>
+      <td><code>order</code></td>
+      <td class="center aligned">
+        <code>integer</code>
+        <code class="ui label">1</code>
+        
+      </td>
+      <td class="eight wide">
+        <p>The ID of the order</p>
+
+        
+      </td>
+    </tr>
+  
+
+                    
+                    
+                  </tbody>
+                </table>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;type&#34;: &#34;public&#34;,
+    &#34;content&#34;: &#34;Example Notes&#34;
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked  segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui  circular label">
+                      400
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;message&#34;: &#34;Error message&#34;
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+        </div>
+      <div class="ui hidden divider"></div>
+    
+  
+    
+      <div class="ui stacked segments">
+        <div class="ui basic segment resource">
+          <div class="ui purple huge ribbon label">
+            Order Bulk Actions
+          </div>
+          <div class="ui header">
+            <div class="ui sub header">
+              <p>These endpoints allow for updating multiple orders are once.</p>
+
+            </div>
+          </div>
+        </div>
+
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="order-bulk-actions-delete-orders">
+              Delete Orders
+            </h3>
+            <div class="description"><p>This endpoint deletes multiple orders at once.</p>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui red large button">
+                  <h3>DELETE</h3>
+                </div>
+                <a class="ui basic fluid red label">
+                  <code>/order/bulkAction/destroy</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;orders&#34;: [
+        1,
+        2,
+        3
+    ]
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;deleted&#34;: true
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="order-bulk-actions-update-field-values">
+              Update Field Values
+            </h3>
+            <div class="description"><p>This endpoint returns the order details each of the provided order.</p>
+
+<p>Below is a list of <em>actions</em> that can be edited, along with their content types</p>
+
+<table>
+<thead>
+<tr>
+<th>Action Name</th>
+<th>Value/Format</th>
+<th>Example</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>ordered_for</td>
+<td>Date (dd/mm/YYYY)</td>
+<td>13/09/2018</td>
+</tr>
+
+<tr>
+<td>collection_date</td>
+<td>Date (dd/mm/YYYY)</td>
+<td>13/09/2018</td>
+</tr>
+
+<tr>
+<td>delivery_date</td>
+<td>Date (dd/mm/YYYY)</td>
+<td>13/09/2018</td>
+</tr>
+
+<tr>
+<td>load_id</td>
+<td>String</td>
+<td>GB0293481A</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/bulkAction/edit</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;orders&#34;: [
+        1,
+        2,
+        3
+    ],
+    &#34;action&#34;: &#34;ordered_for&#34;,
+    &#34;value&#34;: &#34;31/12/2017&#34;
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: [
+        {
+            &#34;id&#34;: 33,
+            &#34;status&#34;: 3,
+            &#34;status_text&#34;: &#34;web&#34;,
+            &#34;customer_id&#34;: 652,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 1304,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 1303,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 258,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 20,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 238
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: &#34;F&#34;,
+                &#34;value&#34;: 20,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 43,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-24 14:36:38&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-27 12:14:48&#34;,
+                &#34;week&#34;: 47
+            }
+        },
+        {
+            &#34;id&#34;: 36,
+            &#34;status&#34;: 1,
+            &#34;status_text&#34;: &#34;draft&#34;,
+            &#34;customer_id&#34;: 119,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 238,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 237,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 3498,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 0,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 3498
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: null,
+                &#34;value&#34;: 0,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 401,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+                &#34;week&#34;: 47
+            }
+        }
+    ]
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="order-bulk-actions-update-status">
+              Update Status
+            </h3>
+            <div class="description"><p>This end point moves the multiple order status. Below are the following numeric order status&rsquo;.</p>
+
+<table>
+<thead>
+<tr>
+<th>Status Code</th>
+<th>Status Name</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0</td>
+<td>Pending</td>
+</tr>
+
+<tr>
+<td>1</td>
+<td>Draft</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Web</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>EDI</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>Reserved</td>
+</tr>
+
+<tr>
+<td>9</td>
+<td>Delivery</td>
+</tr>
+
+<tr>
+<td>11</td>
+<td>Confirmed</td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>Picking</td>
+</tr>
+
+<tr>
+<td>15</td>
+<td>Invoice</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/bulkAction/move</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;orders&#34;: [
+        1,
+        2,
+        3
+    ],
+    &#34;value&#34;: 3
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: [
+        {
+            &#34;id&#34;: 33,
+            &#34;status&#34;: 3,
+            &#34;status_text&#34;: &#34;web&#34;,
+            &#34;customer_id&#34;: 652,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 1304,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 1303,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 258,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 20,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 238
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: &#34;F&#34;,
+                &#34;value&#34;: 20,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 43,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-24 14:36:38&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-27 12:14:48&#34;,
+                &#34;week&#34;: 47
+            }
+        },
+        {
+            &#34;id&#34;: 36,
+            &#34;status&#34;: 3,
+            &#34;status_text&#34;: &#34;web&#34;,
+            &#34;customer_id&#34;: 119,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 238,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 237,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 3498,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 0,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 3498
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: null,
+                &#34;value&#34;: 0,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 401,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+                &#34;week&#34;: 47
+            }
+        }
+    ]
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="order-bulk-actions-send/print-document">
+              Send/Print Document
+            </h3>
+            <div class="description"><p>This endpoint will either send a document to a customer, or return the HTML for printing it.</p>
+
+<p>The method field can either be &ldquo;print&rdquo; for returning the HTML, or &ldquo;email&rdquo; for sending the document to the
+customer.</p>
+
+<p>The document type field can be one of the following:</p>
+
+<ul>
+<li><p>orderAcknowledgement</p></li>
+
+<li><p>deliveryNote</p></li>
+
+<li><p>invoice</p></li>
+</ul>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/bulkAction/document</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;orders&#34;: [
+        1,
+        2,
+        3
+    ],
+    &#34;method&#34;: &#34;email&#34;,
+    &#34;document&#34;: &#34;invoice&#34;
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;sent&#34;: 9,
+    &#34;total&#34;: 9
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/bulkAction/document</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;orders&#34;: [
+        1,
+        2,
+        3
+    ],
+    &#34;method&#34;: &#34;print&#34;,
+    &#34;document&#34;: &#34;invoice&#34;
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">&#34;&lt;html&gt;&lt;body&gt;...&lt;/body&gt;&lt;/html&gt;&#34;
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="order-bulk-actions-assign-pick-list">
+              Assign Pick List
+            </h3>
+            <div class="description"><p>This endpoint will assign orders to the pick list specified.</p>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/bulkAction/pickList</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;orders&#34;: [
+        1,
+        2,
+        3
+    ],
+    &#34;pick_list_id&#34;: 5
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: [
+        {
+            &#34;id&#34;: 33,
+            &#34;status&#34;: 3,
+            &#34;status_text&#34;: &#34;web&#34;,
+            &#34;customer_id&#34;: 652,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 1304,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 1303,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 258,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 20,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 238
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: &#34;F&#34;,
+                &#34;value&#34;: 20,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 43,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-24 14:36:38&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-27 12:14:48&#34;,
+                &#34;week&#34;: 47
+            }
+        },
+        {
+            &#34;id&#34;: 36,
+            &#34;status&#34;: 1,
+            &#34;status_text&#34;: &#34;draft&#34;,
+            &#34;customer_id&#34;: 119,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 238,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 237,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 3498,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 0,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 3498
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: null,
+                &#34;value&#34;: 0,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 401,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+                &#34;week&#34;: 47
+            }
+        }
+    ]
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="order-bulk-actions-sage:-mark-ready">
+              Sage: Mark Ready
+            </h3>
+            <div class="description"><p>This endpoint will set the sage ready flag to true for each order passed, as long as the order is in
+the invoice status.</p>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui blue large button">
+                  <h3>POST</h3>
+                </div>
+                <a class="ui basic fluid blue label">
+                  <code>/order/bulkAction/sage/ready</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;orders&#34;: [
+        1,
+        2
+    ]
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: [
+        {
+            &#34;id&#34;: 33,
+            &#34;status&#34;: 3,
+            &#34;status_text&#34;: &#34;web&#34;,
+            &#34;customer_id&#34;: 652,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 1304,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 1303,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 258,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 20,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 238
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: &#34;F&#34;,
+                &#34;value&#34;: 20,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 43,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-24 14:36:38&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-27 12:14:48&#34;,
+                &#34;week&#34;: 47
+            }
+        },
+        {
+            &#34;id&#34;: 36,
+            &#34;status&#34;: 1,
+            &#34;status_text&#34;: &#34;draft&#34;,
+            &#34;customer_id&#34;: 119,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 238,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 237,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 3498,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 0,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 3498
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: null,
+                &#34;value&#34;: 0,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 401,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+                &#34;week&#34;: 47
+            }
+        }
+    ]
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="order-bulk-actions-sage:-mark-sent">
+              Sage: Mark Sent
+            </h3>
+            <div class="description"><p>This endpoint will set the &lsquo;sage sent at&rsquo; field to the current timestamp when it&rsquo;s hit.</p>
+</div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui teal large button">
+                  <h3>PUT</h3>
+                </div>
+                <a class="ui basic fluid teal label">
+                  <code>/order/bulkAction/sage/ready</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;orders&#34;: [
+        1,
+        2
+    ]
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: [
+        {
+            &#34;id&#34;: 33,
+            &#34;status&#34;: 3,
+            &#34;status_text&#34;: &#34;web&#34;,
+            &#34;customer_id&#34;: 652,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 1304,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 1303,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 258,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 20,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 238
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: &#34;F&#34;,
+                &#34;value&#34;: 20,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 43,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: &#34;06/12/2018n     *                     12:01:03&#34;,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-24 14:36:38&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-27 12:14:48&#34;,
+                &#34;week&#34;: 47
+            }
+        },
+        {
+            &#34;id&#34;: 36,
+            &#34;status&#34;: 1,
+            &#34;status_text&#34;: &#34;draft&#34;,
+            &#34;customer_id&#34;: 119,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 238,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 237,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 3498,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 0,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 3498
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: null,
+                &#34;value&#34;: 0,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 401,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: &#34;06/12/2018n     *     12:01:03&#34;,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+                &#34;week&#34;: 47
+            }
+        }
+    ]
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="order-bulk-actions-post-delivery">
+              Post Delivery
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui blue large button">
+                  <h3>POST</h3>
+                </div>
+                <a class="ui basic fluid blue label">
+                  <code>/order/bulkAction/deliveryPost</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;orders&#34;: [
+        1,
+        2
+    ]
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: [
+        {
+            &#34;id&#34;: 1,
+            &#34;status&#34;: 3,
+            &#34;status_text&#34;: &#34;web&#34;,
+            &#34;customer_id&#34;: 652,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;1&#34;: 1304,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 1303,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 258,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 20,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 238
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: &#34;F&#34;,
+                &#34;value&#34;: 20,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 43,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-24 14:36:38&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-27 12:14:48&#34;,
+                &#34;week&#34;: 47
+            }
+        },
+        {
+            &#34;id&#34;: 2,
+            &#34;status&#34;: 1,
+            &#34;status_text&#34;: &#34;draft&#34;,
+            &#34;customer_id&#34;: 119,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 238,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 237,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 3498,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 0,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 3498
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: null,
+                &#34;value&#34;: 0,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 401,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+                &#34;week&#34;: 47
+            }
+        }
+    ]
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="order-bulk-actions-confirm-delivery">
+              Confirm Delivery
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui blue large button">
+                  <h3>POST</h3>
+                </div>
+                <a class="ui basic fluid blue label">
+                  <code>/order/bulkAction/deliveryConfirm</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;orders&#34;: [
+        1,
+        2
+    ]
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">{
+    &#34;data&#34;: [
+        {
+            &#34;id&#34;: 1,
+            &#34;status&#34;: 3,
+            &#34;status_text&#34;: &#34;web&#34;,
+            &#34;customer_id&#34;: 652,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;1&#34;: 1304,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 1303,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 258,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 20,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 238
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: &#34;F&#34;,
+                &#34;value&#34;: 20,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 43,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-24 14:36:38&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-27 12:14:48&#34;,
+                &#34;week&#34;: 47
+            }
+        },
+        {
+            &#34;id&#34;: 2,
+            &#34;status&#34;: 1,
+            &#34;status_text&#34;: &#34;draft&#34;,
+            &#34;customer_id&#34;: 119,
+            &#34;currency_id&#34;: 19,
+            &#34;pick_list_id&#34;: 6,
+            &#34;delivery_address_id&#34;: 238,
+            &#34;delivery_method&#34;: null,
+            &#34;delivery_status&#34;: null,
+            &#34;delivery_id&#34;: null,
+            &#34;invoice_address_id&#34;: 237,
+            &#34;purchase_number&#34;: null,
+            &#34;delivery&#34;: {
+                &#34;method&#34;: null,
+                &#34;status&#34;: null,
+                &#34;id&#34;: null
+            },
+            &#34;notes&#34;: {
+                &#34;public&#34;: null,
+                &#34;private&#34;: null
+            },
+            &#34;totals&#34;: {
+                &#34;sub&#34;: 3498,
+                &#34;vat&#34;: 0,
+                &#34;discount&#34;: 0,
+                &#34;shipping&#34;: 0,
+                &#34;total&#34;: 3498
+            },
+            &#34;discount&#34;: {
+                &#34;type&#34;: null,
+                &#34;value&#34;: 0,
+                &#34;reason&#34;: null
+            },
+            &#34;counts&#34;: {
+                &#34;pot&#34;: 0,
+                &#34;strip&#34;: 0,
+                &#34;other&#34;: 0,
+                &#34;tray&#34;: 401,
+                &#34;shelf&#34;: 0
+            },
+            &#34;dates&#34;: {
+                &#34;invoiced&#34;: null,
+                &#34;delivery_note&#34;: null,
+                &#34;acknowledgement&#34;: null,
+                &#34;sage_sent&#34;: null,
+                &#34;archived&#34;: null,
+                &#34;ordered_for&#34;: &#34;31/12/2017&#34;,
+                &#34;created_at&#34;: &#34;2017-11-25 14:39:52&#34;,
+                &#34;updated_at&#34;: &#34;2017-11-28 11:41:37&#34;,
+                &#34;week&#34;: 47
+            }
+        }
+    ]
+}
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+          
+<div class="ui grey horizontal small divider header">
+  <i class="ui grey micro circular label"></i>
+  <i class="ui pink micro circular label"></i>
+  <i class="ui grey micro circular label"></i>
+</div>
+
+          <div class="ui basic segment">
+            <h3 class="ui block center aligned header" id="order-bulk-actions-get-delivery-labels">
+              Get Delivery Labels
+            </h3>
+            <div class="description"></div>
+
+            
+              <h4 class="ui horizontal divider">
+                REQUEST
+              </h4>
+              <div class="description"></div>
+              <div class="fluid ui large labeled button">
+                <div class="ui blue large button">
+                  <h3>POST</h3>
+                </div>
+                <a class="ui basic fluid blue label">
+                  <code>/order/bulkAction/deliveryLabels</code>
+                </a>
+              </div>
+              
+              
+                
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              
+              
+                <div class="ui stacked segment">
+                  <div class="ui fluid transaction accordion">
+                    <div class="title">
+                      <code>application/json</code>
+                    </div>
+                    <div class="content tabbed">
+                      <div class="ui top attached tabular menu">
+                        <a data-tab="body" class="active item">BODY</a>
+                        <a data-tab="schema" class="item">SCHEMA</a>
+                      </div>
+                      <div class="ui bottom attached active tab segment" data-tab="body">
+                        <pre style="white-space: inherit">
+                          <code class="language-json">{
+    &#34;orders&#34;: [
+        1,
+        2
+    ]
+}
+</code>
+                        </pre>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="schema">
+                        <pre style="white-space: inherit">
+                          <code class="language-json"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+
+              <h4 class="ui horizontal divider">RESPONSE</h4>
+              <div class="description"></div>
+              
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+      <th colspan="2">Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+      <td class="four wide">Content-Type</td>
+      <td><code>application/json</code></td>
+    </tr>
+  
+  </tbody>
+</table>
+
+              <div class="ui stacked blue segment">
+                <div class="ui fluid transaction accordion">
+                  <div class="title center aligned">
+                    <a class="ui blue circular label">
+                      200
+                    </a>
+                    <code>application/json</code>
+                  </div>
+                  <div class="content tabbed">
+                    <div class="ui top attached tabular menu">
+                      <a data-tab="body" class="active item">BODY</a>
+                      <a data-tab="schema" class="item">SCHEMA</a>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="body">
+                      <pre style="white-space: inherit">
+                        <code class="language-json">&#34;PDF File(s)&#34;
+</code>
+                      </pre>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="schema">
+                      <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+        </div>
+      <div class="ui hidden divider"></div>
+    
+  
+
+
+      </div>
+    </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/components/accordion.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/components/tab.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/components/transition.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/components/popup.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-json.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('.ui.accordion').accordion({ animateChildren: false, duration: 0 });
+        $('.content.tabbed').each(function(index) {
+          $('.ui.tabular .item', $(this)).tab({ context: $(this) });
+        });
+        $('.ui.vertical.menu').on('click', '.item', function() {
+          $('.ui.vertical.menu .item').removeClass('active');
+          $(this).addClass('active');
+        });
+        $('.ui.empty.circular.label').popup();
+      });
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -67,13 +67,14 @@
     <Compile Include="Database\DbControllerBase.cs" />
     <Compile Include="Email\EmailController.cs" />
     <Compile Include="Entities\MappingHelper.cs" />
+    <Compile Include="Extensions\ExtensionHelper.cs" />
     <Compile Include="IO\FileController.cs" />
-    <Compile Include="Sage\BaseSageController.cs" />
-    <Compile Include="Sage\Entities\ISageEntity.cs" />
-    <Compile Include="Sage\Entities\SageSalesOrderPost.cs" />
-    <Compile Include="Sage\Entities\SageVatRate.cs" />
-    <Compile Include="Sage\Enums.cs" />
-    <Compile Include="Sage\ISageActionResult.cs" />
+    <Compile Include="IO\Sage\BaseSageController.cs" />
+    <Compile Include="IO\Sage\Entities\ISageEntity.cs" />
+    <Compile Include="IO\Sage\Entities\SageSalesOrderPost.cs" />
+    <Compile Include="IO\Sage\Entities\SageVatRate.cs" />
+    <Compile Include="IO\Sage\Enums.cs" />
+    <Compile Include="IO\Sage\ISageActionResult.cs" />
     <Compile Include="Validation\BrokenRule.cs" />
     <Compile Include="Web\Entities\OnlineCredit.cs" />
     <Compile Include="Web\Entities\OnlineCustomer.cs" />
@@ -84,18 +85,18 @@
     <Compile Include="Web\Entities\OnlineOrderDates.cs" />
     <Compile Include="Web\Entities\OnlineOrderItem.cs" />
     <Compile Include="Web\Entities\OnlineVatRate.cs" />
-    <Compile Include="Sage\SageActionResult.cs" />
+    <Compile Include="IO\Sage\SageActionResult.cs" />
     <Compile Include="Validation\IValidator.cs" />
     <Compile Include="Validation\SageBatchInvoiceValidator.cs" />
     <Compile Include="Web\IWebController.cs" />
     <Compile Include="Web\WebController.cs" />
-    <Compile Include="Sage\Entities\SageCustomer.cs" />
-    <Compile Include="Sage\Entities\SageBatchInvoice.cs" />
-    <Compile Include="Sage\Entities\SageNominalCode.cs" />
+    <Compile Include="IO\Sage\Entities\SageCustomer.cs" />
+    <Compile Include="IO\Sage\Entities\SageBatchInvoice.cs" />
+    <Compile Include="IO\Sage\Entities\SageNominalCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sage\Exceptions.cs" />
-    <Compile Include="Sage\ISageController.cs" />
-    <Compile Include="Sage\Sage24Controller.cs" />
+    <Compile Include="IO\Sage\Exceptions.cs" />
+    <Compile Include="IO\Sage\ISageController.cs" />
+    <Compile Include="IO\Sage\Sage24Controller.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

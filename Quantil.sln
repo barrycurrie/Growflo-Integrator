@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Growflo.Integration.Core", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{08E1F187-FFEB-4118-93A9-9513D14BD86B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Growflow.Integration.Quantil.Tests", "Growflow.Integration.Quantil.Tests\Growflow.Integration.Quantil.Tests.csproj", "{14508046-93C8-4224-9A08-6E331F4C689F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{B6138273-9DB9-47F9-B5BA-0041AACF46E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6138273-9DB9-47F9-B5BA-0041AACF46E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6138273-9DB9-47F9-B5BA-0041AACF46E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14508046-93C8-4224-9A08-6E331F4C689F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14508046-93C8-4224-9A08-6E331F4C689F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14508046-93C8-4224-9A08-6E331F4C689F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14508046-93C8-4224-9A08-6E331F4C689F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

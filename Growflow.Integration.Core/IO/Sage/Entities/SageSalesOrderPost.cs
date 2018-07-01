@@ -23,6 +23,28 @@ namespace Growflo.Integration.Core.Sage.Entities
         public string CustomerTelephoneNumber { get; set; }
         public string ContactName { get; set; }
         public string GlobalVatCode { get; set; }
+        public DateTime OrderDate { get; set; }
 
+        public List<Item> Items { get; set; } = new List<Item>();
+        public string Notes1 { get; internal set; }
+        public string Notes2 { get; internal set; }
+        public string Notes3 { get; internal set; }
+        public string TakenBy { get; internal set; }
+
+        public class Item
+        {
+            public string StockCode { get; set; }
+            public string Description { get; set; }
+            public string NominalCode { get; set; }
+            public short TaxCode { get; set; }
+            public double Quantity { get; set; }
+            public double UnitPrice { get; set; }
+            public double NetAmount { get; set; }
+            public double FullNetAmount { get; set; }
+            public string Comment1 { get; set; }
+            public string Comment2 { get; set; }
+            public string UnitOfSale { get; set; }
+            public double TaxRate { get; set; }
+        }
     }
 }

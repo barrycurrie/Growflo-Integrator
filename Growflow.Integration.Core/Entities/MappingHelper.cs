@@ -73,18 +73,16 @@ namespace Growflo.Integration.Core.Entities
                 Name = onlineCustomer.Name,
                 AccountNumber = onlineCustomer.Identifier,
                 Email = onlineCustomer.EmailAddress,
-                VatNumber = onlineCustomer.VatNumber
+                VatNumber = onlineCustomer.VatNumber,
             };
 
-            var invoiceAddress = onlineCustomer.InvoiceAddresses.data.FirstOrDefault();
-
-            if (invoiceAddress != null)
+            if (onlineCustomer.InvoiceAddress != null)
             {
-                sageCustomer.InvoiceAddressLine1 = invoiceAddress.Line1;
-                sageCustomer.InvoiceAddressLine2 = invoiceAddress.Line2;
-                sageCustomer.InvoiceAddressLine3 = invoiceAddress.Town;
-                sageCustomer.InvoiceAddressLine4 = invoiceAddress.County;
-                sageCustomer.InvoiceAddressLine5 = invoiceAddress.Postcode;
+                sageCustomer.InvoiceAddressLine1 = onlineCustomer.InvoiceAddress.Line1;
+                sageCustomer.InvoiceAddressLine2 = onlineCustomer.InvoiceAddress.Line2;
+                sageCustomer.InvoiceAddressLine3 = onlineCustomer.InvoiceAddress.Town;
+                sageCustomer.InvoiceAddressLine4 = onlineCustomer.InvoiceAddress.County;
+                sageCustomer.InvoiceAddressLine5 = onlineCustomer.InvoiceAddress.Postcode;
             }
 
             return sageCustomer;
