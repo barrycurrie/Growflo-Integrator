@@ -434,6 +434,7 @@ namespace Growflo.Integration.Core.Sage
 
                 result.Result = SageActionResultType.Failure;
                 result.Message = error;
+                throw;
             }
 
             return result; 

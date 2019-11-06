@@ -50,16 +50,7 @@ namespace Growflo.Integration.Core.Controllers
                 if (response.ErrorException != null)
                     throw response.ErrorException;
 
-                if (multipleResults)
-                {
-                    RootList<T> root = JsonConvert.DeserializeObject<RootList<T>>(response.Content);
-                    items.AddRange(root.data);
-                }
-                else
-                {
-                    Root<T> root = JsonConvert.DeserializeObject<Root<T>>(response.Content);
-                    items.Add(root.data);
-                }
+                items.AddRange(ParseJson<T>(response.Content, multipleResults));
             }
             catch(Exception ex)
             {
@@ -70,6 +61,26 @@ namespace Growflo.Integration.Core.Controllers
 
             return items;
         }
+
+        public IList<T> ParseJson<T>(string json, bool multipleResults)
+        {
+            List<T> items = new List<T>();
+
+            if (multipleResults)
+            {
+                RootList<T> root = JsonConvert.DeserializeObject<RootList<T>>(json);
+                items.AddRange(root.data);
+            }
+            else
+            {
+                Root<T> root = JsonConvert.DeserializeObject<Root<T>>(json);
+                items.Add(root.data);
+            }
+
+            return items;
+        }
+
+
 
         private void ExecuteRequest(Method method, string resource, object item)
         {
@@ -131,8 +142,7 @@ namespace Growflo.Integration.Core.Controllers
             return results;
         }
 
-
-
+       
         public OnlineInvoice DownloadOrder(string orderNumber)
         {
             OnlineInvoice onlineOrder = null;

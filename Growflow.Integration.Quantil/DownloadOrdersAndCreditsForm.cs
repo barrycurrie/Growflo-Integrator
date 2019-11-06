@@ -146,6 +146,9 @@ namespace Growflo.Integration.Quantil
                         }
 
                         var sageInvoice = CreateSageBatchInvoice(invoice);
+
+                        ValidateSageInvoice(sageInvoice);
+
                         _sageController.CreateBatchInvoice(sageInvoice);
 
                         _databaseController.SaveInvoiceCredit(invoice);
@@ -167,6 +170,11 @@ namespace Growflo.Integration.Quantil
 
                 invoices = _webController.DownloadInvoices();
             }
+        }
+
+        private void ValidateSageInvoice(SageBatchInvoice sageInvoice)
+        {
+            if (sageInvoice.Splits.Any(si => string.IsNullOrWhiteSpace(si.NominalCode))) throw new Exception("One or more items have a blank nominal code");
         }
 
         private void UpdateInvoiceLabels(int downloaded, int success, int errors)
