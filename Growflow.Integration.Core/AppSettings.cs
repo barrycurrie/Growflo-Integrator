@@ -27,7 +27,7 @@ namespace Growflo.Integration.Core
 
             return _instance;
         }
-
+        public string SageDsn { get; private set; }
         public string SageDataPath { get; private set; }
         public string SageUsername { get; private set; }
         public string SagePassword { get; private set; }
@@ -46,11 +46,13 @@ namespace Growflo.Integration.Core
         public string SmtpServer { get; set; }
         public string SmtpPassword { get; set; }
         public int SmtpPort { get; set; }
+        public bool ConfirmOrders { get; set; }
 
         private void Initialize()
         {
             _logger.Debug("Initializing Application Settings");
 
+            SageDsn = GetAppSetting(nameof(SageDsn));
             SageDataPath = GetAppSetting(nameof(SageDataPath));
             SageUsername = GetAppSetting(nameof(SageUsername));
             SagePassword = GetAppSetting(nameof(SagePassword));
@@ -70,6 +72,8 @@ namespace Growflo.Integration.Core
             SmtpUsername = GetAppSetting(nameof(SmtpUsername), true);
             SmtpPassword = GetAppSetting(nameof(SmtpPassword), true);
             SmtpPort = int.Parse(GetAppSetting(nameof(SmtpPort), true));
+            ConfirmOrders = GetBoolAppSetting(nameof(ConfirmOrders), false);
+
 
             _logger.Debug("Application Settings Initialized");
         }

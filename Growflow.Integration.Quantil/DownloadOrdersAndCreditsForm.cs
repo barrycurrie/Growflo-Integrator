@@ -22,12 +22,12 @@ namespace Growflo.Integration.Quantil
     public partial class DownloadOrdersAndCreditsForm : Form
     {
         private IWebController _webController;
-        private DatabaseController _databaseController;
+        private IDatabaseController _databaseController;
         private ISageController _sageController;
-
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         public DataSet Results { get; private set; }
 
-        public DownloadOrdersAndCreditsForm(IWebController webController, DatabaseController databaseController, ISageController sageController)
+        public DownloadOrdersAndCreditsForm(IWebController webController, IDatabaseController databaseController, ISageController sageController)
         {
             InitializeComponent();
             progressBar.MarqueeAnimationSpeed = 20;
@@ -113,11 +113,15 @@ namespace Growflo.Integration.Quantil
 
         private void DownloadAndImportInvoices()
         {
+            _logger.Debug("Download and import invoices: begin");
+
             int downloaded = 0;
             int success = 0;
             int errors = 0;
 
             var invoices = _webController.DownloadInvoices();
+            _logger.Debug($"{invoices.Count} downloaded.");
+
 
             while (invoices.Count > 0)
             {
@@ -125,6 +129,8 @@ namespace Growflo.Integration.Quantil
 
                 foreach (var invoice in invoices)
                 {
+                    _logger.Debug($"Processing invoice: {invoice.InvoiceNumber}: Begin");
+
                     UpdateInvoiceLabels(downloaded, success, errors);
 
                     var dataRow = Results.Tables[0].NewRow();
@@ -136,7 +142,7 @@ namespace Growflo.Integration.Quantil
 
                     try
                     {
-                        bool isDuplicate = _databaseController.CheckForInvoiceOrCredit(invoice.InvoiceNumber);
+                        bool isDuplicate = _databaseController.CheckForInvoice(invoice);
 
                         if (isDuplicate)
                         {
@@ -150,26 +156,35 @@ namespace Growflo.Integration.Quantil
                         ValidateSageInvoice(sageInvoice);
 
                         _sageController.CreateBatchInvoice(sageInvoice);
+                        _logger.Debug($"Processing {invoice.InvoiceNumber}: Imported into Sage");
 
                         _databaseController.SaveInvoiceCredit(invoice);
                         _databaseController.SetInvoiceCreditAsImported(invoice.InvoiceNumber);
+                        _logger.Debug($"Processing {invoice.InvoiceNumber}: Growflo updated.");
 
                         _webController.ConfirmOrders(new[] { invoice.OrderID });
                         dataRow["Result"] = true;
                         dataRow["Message"] = "OK";
                         success++;
+
+                        _logger.Debug($"Processing invoice: {invoice.InvoiceNumber}: Success");
                     }
                     catch (Exception ex)
                     {
                         errors++;
                         dataRow["Message"] = ex.Message;
+                        _logger.Debug($"Processing {invoice.InvoiceNumber} failed: {ex.Message}");
+
                     }
 
                     Results.Tables[0].Rows.Add(dataRow);
                 }
 
                 invoices = _webController.DownloadInvoices();
+                _logger.Debug($"{invoices.Count} downloaded.");
             }
+
+            _logger.Debug("Downloadload and import invoices: complete");
         }
 
         private void ValidateSageInvoice(SageBatchInvoice sageInvoice)
@@ -195,11 +210,15 @@ namespace Growflo.Integration.Quantil
 
         private void DownloadAndImportCredits()
         {
+            _logger.Debug("Downloadload and import credits: begin");
+
             int downloaded = 0;
             int success = 0;
             int errors = 0;
 
             var credits = _webController.DownloadCredits();
+            _logger.Debug($"{credits.Count} downloaded.");
+
 
             while (credits.Count > 0)
             {
@@ -207,6 +226,9 @@ namespace Growflo.Integration.Quantil
 
                 foreach (var credit in credits)
                 {
+                    _logger.Debug($"Processing credit: {credit.CreditNumber}: Begin");
+
+
                     UpdateCreditLabels(downloaded, success, errors);
 
                     var dataRow = Results.Tables[0].NewRow();
@@ -218,7 +240,7 @@ namespace Growflo.Integration.Quantil
 
                     try
                     {
-                        bool isDuplicate = _databaseController.CheckForInvoiceOrCredit(credit.CreditNumber);
+                        bool isDuplicate = _databaseController.CheckForCredit(credit);
                         int creditNumber = int.Parse(credit.CreditNumber);
 
                         if (isDuplicate)
@@ -229,27 +251,38 @@ namespace Growflo.Integration.Quantil
 
                         var sageInvoice = CreateSageBatchInvoice(credit);
                         _sageController.CreateBatchInvoice(sageInvoice);
+                        _logger.Debug($"Processing {credit.CreditNumber}: Imported into Sage");
 
                         _databaseController.SaveInvoiceCredit(credit);
                         _databaseController.SetInvoiceCreditAsImported(credit.CreditNumber);
+                        _logger.Debug($"Processing {credit.CreditNumber}: DB Updated");
+
 
                         _webController.ConfirmCredits(new int[] { credit.Id });
+                        _logger.Debug($"Processing {credit.CreditNumber}: Growflo updated");
 
                         success++;
                         dataRow["Result"] = true;
                         dataRow["Message"] = "OK";
+
+                        _logger.Debug($"Processing {credit.CreditNumber}: Success");
+
                     }
                     catch (Exception ex)
                     {
                         errors++;
                         dataRow["Message"] = ex.Message;
+                        _logger.Debug($"Processing {credit.CreditNumber} failed: {ex.Message}");
                     }
 
                     Results.Tables[0].Rows.Add(dataRow);
                 }
 
                 credits = _webController.DownloadCredits();
+                _logger.Debug($"{credits.Count} downloaded.");
             }
+
+            _logger.Debug("Downloadload and import credits: complete");
         }
 
 

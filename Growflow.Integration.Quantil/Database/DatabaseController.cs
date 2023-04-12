@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Growflo.Integration.Quantil.Database
 {
-    public class DatabaseController : DbControllerBase
+    public class DatabaseController : DbControllerBase, IDatabaseController
     {
         public bool CheckConnection(ref string errorMessage)
         {
@@ -21,7 +21,7 @@ namespace Growflo.Integration.Quantil.Database
                     connection.Open();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 errorMessage = ex.Message;
                 return false;
@@ -64,22 +64,12 @@ namespace Growflo.Integration.Quantil.Database
             }
         }
 
-        internal void SetInvoiceCreditAsImported(string invoiceCreditID)
+        public void SetInvoiceCreditAsImported(string invoiceCreditID)
         {
             string sql = $" UPDATE InvoiceCredit SET Imported = 1 WHERE InvoiceCreditID = {invoiceCreditID} ";
             ExecuteNonQuery(sql);
         }
-
-        public bool CheckForInvoiceOrCredit(string invoiceNumber)
-        {
-            string sql = $"SELECT * FROM InvoiceCredit WHERE InvoiceCreditID = {invoiceNumber}";
-
-            var result = GetDataset(sql);
-
-            return result.Tables.Count > 0 && result.Tables[0].Rows.Count > 0;
-        }
-
-        internal void SaveInvoiceCredit(OnlineCredit credit)
+        public void SaveInvoiceCredit(OnlineCredit credit)
         {
             string sql =
             " INSERT INTO [InvoiceCredit] " +
@@ -110,6 +100,48 @@ namespace Growflo.Integration.Quantil.Database
                     command.ExecuteNonQuery();
                 }
             }
+        }
+
+        internal DataSet GetImportByDate(DateTime date)
+        {
+            DataSet ds = new DataSet();
+
+            string sql =
+            " select InvoiceCreditId as InvoiceOrCreditNo, AccountIdentifier as AccountNo, OrderId as OrderNo, 'True' as Result, 'OK' as Message " +
+            " from InvoiceCredit " +
+            $" where DateTimeCreated >= {date.Date:yyyyMMdd} and DateTimeCreated < {date.Date.AddDays(1):yyyyMMdd} ";
+
+            using (var connection = new SQLiteConnection(GetConnectionString()))
+            {
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    using (var adapter = new SQLiteDataAdapter(command))
+                    {
+                        connection.Open();
+                        adapter.Fill(ds);
+                    }
+                }
+            }
+
+            return ds;
+        }
+
+        public bool CheckForInvoice(OnlineInvoice invoice)
+        {
+            string sql = $"SELECT * FROM InvoiceCredit WHERE InvoiceCreditID = {invoice.InvoiceNumber}";
+
+            var result = GetDataset(sql);
+
+            return result.Tables.Count > 0 && result.Tables[0].Rows.Count > 0;
+        }
+
+        public bool CheckForCredit(OnlineCredit credit)
+        {
+            string sql = $"SELECT * FROM InvoiceCredit WHERE InvoiceCreditID = {credit.CreditNumber}";
+
+            var result = GetDataset(sql);
+
+            return result.Tables.Count > 0 && result.Tables[0].Rows.Count > 0;
         }
     }
 }

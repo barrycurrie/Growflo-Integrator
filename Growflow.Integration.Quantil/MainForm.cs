@@ -10,6 +10,7 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -34,7 +35,7 @@ namespace Growflo.Integration.Windows
             _mappingHelper = new MappingHelper();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)  
         {
             downloadSingleOrderButton.Visible = AppSettings.GetInstance().DownloadSingleOrders;
         }
@@ -136,7 +137,7 @@ namespace Growflo.Integration.Windows
 
         private void DownloadInvoicesAndCredits()
         {
-            using (var progressForm = new DownloadOrdersAndCreditsForm(_webController, new DatabaseController(), _sageController))
+            using (var progressForm = new DownloadOrdersAndCreditsForm(_webController, new SageOdbcDatabaseController(), _sageController))
             {
                 progressForm.ShowDialog();
             }
@@ -196,6 +197,40 @@ namespace Growflo.Integration.Windows
         private void exitButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void printReportButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime? date = null;
+
+                using (ReportForm form = new ReportForm())
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        date = form.SelectedDate;
+                    }
+                }
+
+                if (!date.HasValue)
+                    return;
+
+                var dataSet = new DatabaseController().GetImportByDate(date.Value);
+
+                // Write to File.
+                string basePath = Growflo.Integration.Core.AppSettings.GetInstance().ApplicationDataPath;
+                string fileName = System.IO.Path.Combine(basePath, "import_" + DateTime.Now.ToString("yy-MM-dd HH-mm-ss"));
+                var fileController = new Growflo.Integration.Core.IO.FileController();
+                string csv = fileName + ".csv";
+                fileController.WriteToCsv(dataSet.Tables[0], csv);
+
+                Process.Start(csv);
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage(ex.Message);
+            }
         }
     }
 }

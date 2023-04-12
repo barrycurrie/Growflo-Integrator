@@ -15,7 +15,8 @@ namespace Growflo.Integration.Core.Entities
                 CustomerAccountNumber = onlineOrder.AccountIdentifier,
                 Date = onlineOrder.Dates == null ? DateTime.Today : onlineOrder.Dates.DeliveryDate.GetValueOrDefault(DateTime.Today),
                 IsCredit = onlineOrder.IsCredit,
-                Currency = onlineOrder.CurrencyCode
+                Currency = onlineOrder.CurrencyCode,
+                Details= onlineOrder.PurchaseOrderNo,
             };
 
 
@@ -27,7 +28,7 @@ namespace Growflo.Integration.Core.Entities
                     VatCode = x.VatCode,
                     VatAmount = (double)x.VatTotal,
                     NetAmount = (double)x.SubTotal,
-                    Details = x.Name,
+                    Details = sageBatchInvoice.Details,
                     Date = sageBatchInvoice.Date
                 });
 

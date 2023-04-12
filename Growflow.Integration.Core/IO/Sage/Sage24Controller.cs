@@ -1,6 +1,6 @@
 ﻿using Growflo.Integration.Core.Sage.Entities;
 using NLog;
-using SageDataObject240;
+using SageDataObject270;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -257,24 +257,30 @@ namespace Growflo.Integration.Core.Sage
                 {
                     do
                     {
-                        SageCustomer customer = new SageCustomer
+                        string accountRef = Convert.ToString(Read(salesRecord, "ACCOUNT_REF"));
+
+                        if (accountRef == "QF112")
                         {
-                            AccountNumber = Convert.ToString(Read(salesRecord, "ACCOUNT_REF")),
-                            Name = Convert.ToString(Read(salesRecord, "NAME")),
-                            Balance = Convert.ToDecimal(Read(salesRecord, "BALANCE")),
-                            Terms = Convert.ToString(Read(salesRecord, "TERMS")),
-                            OnHold = Convert.ToBoolean(Read(salesRecord, "ACCOUNT_ON_HOLD")),
-                            InvoiceAddressLine1 = Convert.ToString(Read(salesRecord, "ADDRESS_1")),
-                            InvoiceAddressLine2 = Convert.ToString(Read(salesRecord, "ADDRESS_2")),
-                            InvoiceAddressLine3 = Convert.ToString(Read(salesRecord, "ADDRESS_3")),
-                            InvoiceAddressLine4 = Convert.ToString(Read(salesRecord, "ADDRESS_4")),
-                            InvoiceAddressLine5 = Convert.ToString(Read(salesRecord, "ADDRESS_5")),
-                            Email = Convert.ToString(Read(salesRecord, "E_MAIL")),
-                            VatNumber = Convert.ToString(Read(salesRecord, "VAT_REG_NUMBER")),
-                        };
+                            SageCustomer customer = new SageCustomer
+                            {
+                                AccountNumber = Convert.ToString(Read(salesRecord, "ACCOUNT_REF")),
+                                Name = Convert.ToString(Read(salesRecord, "NAME")),
+                                Balance = Convert.ToDecimal(Read(salesRecord, "BALANCE")),
+                                Terms = Convert.ToString(Read(salesRecord, "TERMS")),
+                                OnHold = Convert.ToBoolean(Read(salesRecord, "ACCOUNT_ON_HOLD")),
+                                InvoiceAddressLine1 = Convert.ToString(Read(salesRecord, "ADDRESS_1")),
+                                InvoiceAddressLine2 = Convert.ToString(Read(salesRecord, "ADDRESS_2")),
+                                InvoiceAddressLine3 = Convert.ToString(Read(salesRecord, "ADDRESS_3")),
+                                InvoiceAddressLine4 = Convert.ToString(Read(salesRecord, "ADDRESS_4")),
+                                InvoiceAddressLine5 = Convert.ToString(Read(salesRecord, "ADDRESS_5")),
+                                Email = Convert.ToString(Read(salesRecord, "E_MAIL")),
+                                VatNumber = Convert.ToString(Read(salesRecord, "VAT_REG_NUMBER")),
+                                CreditLimit = Convert.ToString(Read(salesRecord, "CREDIT_LIMIT")),
+                            };
 
-                        customers.Add(customer);
 
+                            customers.Add(customer);
+                        }
                     } while (salesRecord.MoveNext());
                 }
             }
@@ -390,6 +396,7 @@ namespace Growflo.Integration.Core.Sage
                     Write(transactionPost.Header, "POSTED_DATE", (DateTime)DateTime.Today);
                     Write(transactionPost.Header, "TYPE", (Byte)(invoice.IsCredit ? TransType.sdoSC : TransType.sdoSI));
                     Write(transactionPost.Header, "INV_REF", (String)invoice.InvoiceReference);
+                    Write(transactionPost.Header, "DETAILS", (string)invoice.Details);
 
                     IEnumerable<SageBatchInvoice.Split> groupedSplits = GroupSplitsByNominalCodeAndVatRate(invoice);
 
@@ -409,7 +416,7 @@ namespace Growflo.Integration.Core.Sage
                         Write(splitData, "TAX_CODE", (Int16)ConvertVatCodeToShort(split.VatCode));
                         Write(splitData, "NET_AMOUNT", (Double) Math.Round(split.NetAmount, 2));
                         Write(splitData, "TAX_AMOUNT", (Double) Math.Round(split.VatAmount, 2));
-                        Write(splitData, "DETAILS", (String)split.Details);
+                        Write(splitData, "DETAILS", (String)invoice.Details);
                         Write(splitData, "DATE", (DateTime)Read(transactionPost.Header, "DATE"));
                     }
 
@@ -1012,9 +1019,9 @@ namespace Growflo.Integration.Core.Sage
             try
             { 
                 //Instantiate objects
-                oSalesRecord = (SageDataObject240.SalesRecord)_workSpace.CreateObject("SalesRecord");
-                oStockRecord = (SageDataObject240.StockRecord)_workSpace.CreateObject("StockRecord");
-                oSopPost = (SageDataObject240.SopPost)_workSpace.CreateObject("SopPost");
+                oSalesRecord = (SalesRecord)_workSpace.CreateObject("SalesRecord");
+                oStockRecord = (StockRecord)_workSpace.CreateObject("StockRecord");
+                oSopPost = (SopPost)_workSpace.CreateObject("SopPost");
 
                 //Read the first customer
                 Write(oSalesRecord, "ACCOUNT_REF", p.CustomerAccountNumber);
@@ -1057,7 +1064,7 @@ namespace Growflo.Integration.Core.Sage
                 //Create and order item
                 foreach (SageSalesOrderPost.Item postItem in p.Items)
                 {
-                    oSopItem = (SageDataObject240.SopItem)Add(oSopPost.Items);
+                    oSopItem = (SopItem)Add(oSopPost.Items);
 
                     //Read the first stock code
                     Write(oSopItem, "STOCK_CODE", (String)postItem.StockCode);

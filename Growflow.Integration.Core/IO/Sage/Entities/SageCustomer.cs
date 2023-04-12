@@ -23,6 +23,7 @@ namespace Growflo.Integration.Core.Sage.Entities
         public string InvoiceAddressLine5 { get; set; }
         public string Terms { get; set; }
         public bool OnHold { get; set; }
+        public string CreditLimit { get; set; }
 
         public string GetId()
         {

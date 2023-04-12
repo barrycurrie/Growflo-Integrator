@@ -14,6 +14,7 @@ namespace Growflo.Integration.Core.Sage.Entities
         public List<Split> Splits { get; set; } = new List<Split>();
         public string Currency { get; set; }
         public string Name { get; internal set; }
+        public string Details { get; set; }
 
         public string GetId()
         {

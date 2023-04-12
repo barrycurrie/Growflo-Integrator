@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -105,14 +106,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="SageDataObject240">
-      <Guid>{831B5D6B-3C77-4FCE-B693-B4EC1E7C71D6}</Guid>
-      <VersionMajor>24</VersionMajor>
+    <COMReference Include="SageDataObject270">
+      <Guid>{5574F2E1-7B76-4C64-8EC9-D137EC26FA05}</Guid>
+      <VersionMajor>27</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
   <ItemGroup>

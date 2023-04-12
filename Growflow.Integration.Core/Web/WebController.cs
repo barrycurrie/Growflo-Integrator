@@ -220,7 +220,8 @@ namespace Growflo.Integration.Core.Controllers
                     balance = c.Balance,
                     balance_as_of = DateTime.Today.ToString("dd/MM/yyyy"),
                     status = c.OnHold ? "On Hold" : "OK",
-                    payment_terms = string.IsNullOrWhiteSpace(c.Terms) ? "TERMS NOT AGREED" : c.Terms
+                    payment_terms = string.IsNullOrWhiteSpace(c.Terms) ? "TERMS NOT AGREED" : c.Terms,
+                    credit_limit = c.CreditLimit,
                 });
 
                 dynamic root = new { customers = data };
@@ -236,16 +237,22 @@ namespace Growflo.Integration.Core.Controllers
 
         public void ConfirmOrders(int[] data)
         {
-            dynamic root = new { orders = data };
+            if (AppSettings.GetInstance().ConfirmOrders)
+            {
+                dynamic root = new { orders = data };
 
-            ExecuteRequest(Method.PUT, "order/bulkAction/sage/sent", root);
+                ExecuteRequest(Method.PUT, "order/bulkAction/sage/sent", root);
+            }
         }
 
         public void ConfirmCredits(int[] data)
         {
-            dynamic root = new { credits = data };
+            if (AppSettings.GetInstance().ConfirmOrders)
+            {
+                dynamic root = new { credits = data };
 
-            ExecuteRequest(Method.PUT, "credit/bulkAction/sage/sent", root);
+                ExecuteRequest(Method.PUT, "credit/bulkAction/sage/sent", root);
+            }
         }
 
         public IList<OnlineCredit> DownloadCredits()

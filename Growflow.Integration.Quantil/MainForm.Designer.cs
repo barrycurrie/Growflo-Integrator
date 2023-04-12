@@ -32,17 +32,18 @@
             this.actionsGroupBox = new System.Windows.Forms.GroupBox();
             this.exitButton = new System.Windows.Forms.Button();
             this.viewSettingsButton = new System.Windows.Forms.Button();
+            this.downloadSingleOrderButton = new System.Windows.Forms.Button();
             this.downloadOrdersButton = new System.Windows.Forms.Button();
             this.uploadTaxCodesButton = new System.Windows.Forms.Button();
             this.uploadNominalCodesButton = new System.Windows.Forms.Button();
-            this.downloadSingleOrderButton = new System.Windows.Forms.Button();
+            this.printReportButton = new System.Windows.Forms.Button();
             this.actionsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // uploadCustomerDetailsButton
             // 
             this.uploadCustomerDetailsButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.uploadCustomerDetailsButton.Location = new System.Drawing.Point(3, 27);
+            this.uploadCustomerDetailsButton.Location = new System.Drawing.Point(3, 19);
             this.uploadCustomerDetailsButton.Name = "uploadCustomerDetailsButton";
             this.uploadCustomerDetailsButton.Size = new System.Drawing.Size(534, 59);
             this.uploadCustomerDetailsButton.TabIndex = 0;
@@ -53,6 +54,7 @@
             // actionsGroupBox
             // 
             this.actionsGroupBox.Controls.Add(this.exitButton);
+            this.actionsGroupBox.Controls.Add(this.printReportButton);
             this.actionsGroupBox.Controls.Add(this.viewSettingsButton);
             this.actionsGroupBox.Controls.Add(this.downloadSingleOrderButton);
             this.actionsGroupBox.Controls.Add(this.downloadOrdersButton);
@@ -70,7 +72,7 @@
             // exitButton
             // 
             this.exitButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.exitButton.Location = new System.Drawing.Point(3, 381);
+            this.exitButton.Location = new System.Drawing.Point(3, 432);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(534, 59);
             this.exitButton.TabIndex = 14;
@@ -81,7 +83,7 @@
             // viewSettingsButton
             // 
             this.viewSettingsButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.viewSettingsButton.Location = new System.Drawing.Point(3, 322);
+            this.viewSettingsButton.Location = new System.Drawing.Point(3, 314);
             this.viewSettingsButton.Name = "viewSettingsButton";
             this.viewSettingsButton.Size = new System.Drawing.Size(534, 59);
             this.viewSettingsButton.TabIndex = 11;
@@ -89,10 +91,22 @@
             this.viewSettingsButton.UseVisualStyleBackColor = true;
             this.viewSettingsButton.Click += new System.EventHandler(this.viewSettingsButton_Click);
             // 
+            // downloadSingleOrderButton
+            // 
+            this.downloadSingleOrderButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.downloadSingleOrderButton.Location = new System.Drawing.Point(3, 255);
+            this.downloadSingleOrderButton.Name = "downloadSingleOrderButton";
+            this.downloadSingleOrderButton.Size = new System.Drawing.Size(534, 59);
+            this.downloadSingleOrderButton.TabIndex = 10;
+            this.downloadSingleOrderButton.Text = "Download Single Order";
+            this.downloadSingleOrderButton.UseVisualStyleBackColor = true;
+            this.downloadSingleOrderButton.Visible = false;
+            this.downloadSingleOrderButton.Click += new System.EventHandler(this.downloadSingleOrderButton_Click);
+            // 
             // downloadOrdersButton
             // 
             this.downloadOrdersButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.downloadOrdersButton.Location = new System.Drawing.Point(3, 204);
+            this.downloadOrdersButton.Location = new System.Drawing.Point(3, 196);
             this.downloadOrdersButton.Name = "downloadOrdersButton";
             this.downloadOrdersButton.Size = new System.Drawing.Size(534, 59);
             this.downloadOrdersButton.TabIndex = 7;
@@ -103,7 +117,7 @@
             // uploadTaxCodesButton
             // 
             this.uploadTaxCodesButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.uploadTaxCodesButton.Location = new System.Drawing.Point(3, 145);
+            this.uploadTaxCodesButton.Location = new System.Drawing.Point(3, 137);
             this.uploadTaxCodesButton.Name = "uploadTaxCodesButton";
             this.uploadTaxCodesButton.Size = new System.Drawing.Size(534, 59);
             this.uploadTaxCodesButton.TabIndex = 5;
@@ -114,7 +128,7 @@
             // uploadNominalCodesButton
             // 
             this.uploadNominalCodesButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.uploadNominalCodesButton.Location = new System.Drawing.Point(3, 86);
+            this.uploadNominalCodesButton.Location = new System.Drawing.Point(3, 78);
             this.uploadNominalCodesButton.Name = "uploadNominalCodesButton";
             this.uploadNominalCodesButton.Size = new System.Drawing.Size(534, 59);
             this.uploadNominalCodesButton.TabIndex = 4;
@@ -122,23 +136,22 @@
             this.uploadNominalCodesButton.UseVisualStyleBackColor = true;
             this.uploadNominalCodesButton.Click += new System.EventHandler(this.uploadNominalCodesButton_Click);
             // 
-            // downloadSingleOrderButton
+            // printReportButton
             // 
-            this.downloadSingleOrderButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.downloadSingleOrderButton.Location = new System.Drawing.Point(3, 263);
-            this.downloadSingleOrderButton.Name = "downloadSingleOrderButton";
-            this.downloadSingleOrderButton.Size = new System.Drawing.Size(534, 59);
-            this.downloadSingleOrderButton.TabIndex = 10;
-            this.downloadSingleOrderButton.Text = "Download Single Order";
-            this.downloadSingleOrderButton.UseVisualStyleBackColor = true;
-            this.downloadSingleOrderButton.Visible = false;
-            this.downloadSingleOrderButton.Click += new System.EventHandler(this.downloadSingleOrderButton_Click);
+            this.printReportButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.printReportButton.Location = new System.Drawing.Point(3, 373);
+            this.printReportButton.Name = "printReportButton";
+            this.printReportButton.Size = new System.Drawing.Size(534, 59);
+            this.printReportButton.TabIndex = 12;
+            this.printReportButton.Text = "Print Report";
+            this.printReportButton.UseVisualStyleBackColor = true;
+            this.printReportButton.Click += new System.EventHandler(this.printReportButton_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(564, 520);
+            this.ClientSize = new System.Drawing.Size(564, 606);
             this.Controls.Add(this.actionsGroupBox);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Name = "MainForm";
@@ -160,6 +173,7 @@
         private System.Windows.Forms.Button viewSettingsButton;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Button downloadSingleOrderButton;
+        private System.Windows.Forms.Button printReportButton;
     }
 }
 
