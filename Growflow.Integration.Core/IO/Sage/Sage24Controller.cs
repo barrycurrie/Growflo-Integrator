@@ -1,6 +1,6 @@
 ﻿using Growflo.Integration.Core.Sage.Entities;
 using NLog;
-using SageDataObject270;
+using SageDataObject290;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -106,18 +106,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="SageDataObject270">
-      <Guid>{5574F2E1-7B76-4C64-8EC9-D137EC26FA05}</Guid>
-      <VersionMajor>27</VersionMajor>
+    <Folder Include="Logging\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SageDataObject290">
+      <Guid>{3E9D169B-1F9F-41D5-8688-78BAA9F915D8}</Guid>
+      <VersionMajor>29</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logging\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
